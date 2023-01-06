@@ -4,9 +4,11 @@
 #include "CharacterPlayer.h"
 
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/SimpleResourceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -37,7 +39,7 @@ ACharacterPlayer::ACharacterPlayer()
 	bUseControllerRotationRoll = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 540.f, 0.f);
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 256.f, 0.f);
 }
 
 void ACharacterPlayer::BeginPlay()
@@ -62,18 +64,18 @@ void ACharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void ACharacterPlayer::MoveForward(const float AxisValue)
 {
-	const FRotator ControllerRotation = Controller->GetControlRotation();
-	const FRotator NewYawRotation(0.f, ControllerRotation.Yaw, 0.f);
-	const FVector MoveDirection = FRotationMatrix(NewYawRotation).GetUnitAxis(EAxis::X);
-	AddMovementInput(MoveDirection, AxisValue);
+	const FRotator Rotation = GetCapsuleComponent()->GetComponentRotation();
+	const FRotator NewYawRotation(0.f, Rotation.Yaw, 0.f);
+	const FVector Direction = UKismetMathLibrary::GetForwardVector(NewYawRotation);
+	AddMovementInput(Direction, AxisValue);
 }
 
 void ACharacterPlayer::MoveRight(const float AxisValue)
 {
-	const FRotator ControllerRotation = Controller->GetControlRotation();
-	const FRotator NewYawRotation(0.f, ControllerRotation.Yaw, 0.f);
-	const FVector MoveDirection = FRotationMatrix(NewYawRotation).GetUnitAxis(EAxis::Y);
-	AddMovementInput(MoveDirection, AxisValue);
+	const FRotator Rotation = GetCapsuleComponent()->GetComponentRotation();
+	const FRotator NewYawRotation(0.f, Rotation.Yaw, 0.f);
+	const FVector Direction = UKismetMathLibrary::GetRightVector(NewYawRotation);
+	AddMovementInput(Direction, AxisValue);
 }
 
 void ACharacterPlayer::LookUp(const float AxisValue)

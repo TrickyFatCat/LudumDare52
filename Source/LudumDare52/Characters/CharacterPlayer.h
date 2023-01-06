@@ -47,10 +47,10 @@ protected:
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
-	float CameraYawSensitivity = 10.f;
+	float CameraYawSensitivity = 15.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
-	float CameraPitchSensitivity= 10.f;
+	float CameraPitchSensitivity= 15.f;
 	
 	void MoveForward(const float AxisValue);
 	void MoveRight(const float AxisValue);
