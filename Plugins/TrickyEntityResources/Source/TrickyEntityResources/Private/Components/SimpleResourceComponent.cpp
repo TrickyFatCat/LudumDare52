@@ -28,13 +28,23 @@ void USimpleResourceComponent::BeginPlay()
 	}
 }
 
+void USimpleResourceComponent::SetResourceDate(const FSimpleResourceData& Data)
+{
+	ResourceData = Data;
+
+	if (ResourceObject)
+	{
+		ResourceObject->SetResourceData(Data);
+	}
+}
+
 void USimpleResourceComponent::DecreaseValue(const int32 Amount)
 {
 	if (!ResourceObject)
 	{
 		return;
 	}
-	
+
 	ResourceObject->DecreaseValue(Amount);
 }
 
@@ -44,7 +54,7 @@ void USimpleResourceComponent::IncreaseValue(const int32 Amount, const bool bCla
 	{
 		return;
 	}
-	
+
 	ResourceObject->IncreaseValue(Amount, bClampToMax);
 }
 
@@ -126,4 +136,3 @@ void USimpleResourceComponent::OnMaxValueIncreased(const int32 NewMaxValue, cons
 	ResourceData.MaxValue = NewMaxValue;
 	OnResourceMaxValueIncreased.Broadcast(NewMaxValue, Amount);
 }
-

@@ -22,6 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	void SetResourceDate(const FSimpleResourceData& Data);
 	/**
 	 * Called when Value was successfully decreased.
 	 */
