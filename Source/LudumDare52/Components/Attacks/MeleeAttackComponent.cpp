@@ -29,12 +29,12 @@ void UMeleeAttackComponent::BeginPlay()
 	}
 }
 
-void UMeleeAttackComponent::HandleMeleeBegin()
+void UMeleeAttackComponent::HandleMeleeBegin(USkeletalMeshComponent* SkeletalMeshComponent)
 {
 	OnMeleeBegin.Broadcast();
 }
 
-void UMeleeAttackComponent::HandleMeleeEnd()
+void UMeleeAttackComponent::HandleMeleeEnd(USkeletalMeshComponent* SkeletalMeshComponent)
 {
 	OnMeleeEnd.Broadcast();
 }

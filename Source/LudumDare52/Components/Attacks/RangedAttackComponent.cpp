@@ -3,6 +3,8 @@
 
 #include "RangedAttackComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "LudumDare52/Actors/ProjectileBase.h"
 #include "LudumDare52/Animation/AnimUtils.h"
 #include "LudumDare52/Animation/SpawnProjectileNotify.h"
 
@@ -18,7 +20,8 @@ void URangedAttackComponent::BeginPlay()
 			continue;
 		}
 
-		USpawnProjectileNotify* SpawnProjectileNotify = UAnimUtils::FindFirstNotifyByClass<USpawnProjectileNotify>(AttackMontage);
+		USpawnProjectileNotify* SpawnProjectileNotify = UAnimUtils::FindFirstNotifyByClass<USpawnProjectileNotify>(
+			AttackMontage);
 
 		if (SpawnProjectileNotify)
 		{
@@ -27,7 +30,17 @@ void URangedAttackComponent::BeginPlay()
 	}
 }
 
-void URangedAttackComponent::HandleProjectileSpawn() const
+void URangedAttackComponent::HandleProjectileSpawn(USkeletalMeshComponent* SkeletalMeshComponent)
 {
+	if (!SkeletalMeshComponent || !ProjectileClass)
+	{
+		return;
+	}
 	OnProjectileSpawned.Broadcast();
+
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(SkeletalMeshComponent->GetSocketLocation(SpawnSocketName));
+	SpawnTransform.SetRotation(FQuat(SkeletalMeshComponent->GetSocketRotation(SpawnSocketName)));
+	// SpawnTransform.SetRotation(FQuat(SkeletalMeshComponent->GetOwner()->GetActorForwardVector().Rotation()));
+	GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnTransform);
 }
