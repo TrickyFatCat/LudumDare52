@@ -14,6 +14,7 @@
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
 #include "LudumDare52/Components/Attacks/MeleeAttackComponent.h"
+#include "LudumDare52/Components/Attacks/RangedAttackComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -36,9 +37,10 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
 	MeleeAttackComponent = CreateDefaultSubobject<UMeleeAttackComponent>("MeleeAttack");
-
 	MeleeTriggerComponent = CreateDefaultSubobject<UMeleeTriggerComponent>("MeleeTrigger");
 	MeleeTriggerComponent->SetupAttachment(GetRootComponent());
+
+	RangedAttackComponent = CreateDefaultSubobject<URangedAttackComponent>("RangedAttack");
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
@@ -52,7 +54,8 @@ void ACharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack); 
+	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
+	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
 }
 
 void ACharacterPlayer::Tick(float DeltaTime)
@@ -70,6 +73,7 @@ void ACharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookRight", this, &ACharacterPlayer::LookRight);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacterPlayer::Jump);
 	PlayerInputComponent->BindAction("MeleeAttack", IE_Pressed, this, &ACharacterPlayer::StartMeleeAttack);
+	PlayerInputComponent->BindAction("RangedAttack", IE_Pressed, this, &ACharacterPlayer::StartRangedAttack);
 }
 
 void ACharacterPlayer::MoveForward(const float AxisValue)
@@ -107,6 +111,17 @@ void ACharacterPlayer::StartMeleeAttack()
 
 	bIsAttacking = true;
 	MeleeAttackComponent->StartAttack();
+}
+
+void ACharacterPlayer::StartRangedAttack()
+{
+	if (bIsAttacking)
+	{
+		return;
+	}
+
+	bIsAttacking = true;
+	RangedAttackComponent->StartAttack();
 }
 
 void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const
