@@ -18,12 +18,24 @@ void UAttackComponent::BeginPlay()
 
 	Character = Cast<ACharacter>(GetOwner());
 
-	UFinishAttackNotify* FinishAttackNotify = UFinishAttackNotify::FindFirstNotifyByClass<
-		UFinishAttackNotify>(AnimMontage);
-
-	if (FinishAttackNotify)
+	if (AttackMontages.Num() == 0)
 	{
-		FinishAttackNotify->OnNotified.AddUObject(this, &UAttackComponent::FinishAttack);
+		return;
+	}
+
+	for (const auto& AttackMontage : AttackMontages)
+	{
+		if (!AttackMontage)
+		{
+			continue;
+		}
+		UFinishAttackNotify* FinishAttackNotify = UFinishAttackNotify::FindFirstNotifyByClass<UFinishAttackNotify>(
+			AttackMontage);
+
+		if (FinishAttackNotify)
+		{
+			FinishAttackNotify->OnNotified.AddUObject(this, &UAttackComponent::FinishAttack);
+		}
 	}
 }
 
@@ -35,16 +47,26 @@ void UAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UAttackComponent::StartAttack()
 {
-	if (!Character)
+	if (!Character || AttackMontages.Num() == 0)
 	{
 		return;
 	}
 
-	Character->PlayAnimMontage(AnimMontage);
+	UAnimMontage* AttackMontage = AttackMontages[CurrentIndex];
+
+	if (!AttackMontage)
+	{
+		return;
+	}
+
+	Character->PlayAnimMontage(AttackMontage);
 	OnAttackStarted.Broadcast();
 }
 
 void UAttackComponent::FinishAttack()
 {
+	CurrentIndex++;
+	CurrentIndex = CurrentIndex == AttackMontages.Num() ? 0 : CurrentIndex;
+
 	OnAttackFinished.Broadcast();
 }

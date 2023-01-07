@@ -42,5 +42,7 @@ protected:
 	ACharacter* Character = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UAnimMontage* AnimMontage = nullptr;
+	TArray<UAnimMontage*> AttackMontages;
+
+	int32 CurrentIndex = 0;
 };
