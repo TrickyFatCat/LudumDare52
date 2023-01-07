@@ -65,7 +65,7 @@ void USimpleEntityResource::IncreaseMaxValue(int32 Amount, const bool bClampValu
 	{
 		return;
 	}
-
+	
 	ResourceData.MaxValue += Amount;
 	OnMaxValueIncreased.Broadcast(ResourceData.MaxValue, Amount);
 

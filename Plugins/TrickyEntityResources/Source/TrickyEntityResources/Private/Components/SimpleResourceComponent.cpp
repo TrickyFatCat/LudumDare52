@@ -13,8 +13,6 @@ USimpleResourceComponent::USimpleResourceComponent()
 
 void USimpleResourceComponent::BeginPlay()
 {
-	Super::BeginPlay();
-
 	ResourceObject = NewObject<USimpleEntityResource>(this);
 
 	if (ResourceObject)
@@ -26,6 +24,8 @@ void USimpleResourceComponent::BeginPlay()
 		ResourceObject->OnMaxValueDecreased.AddDynamic(this, &USimpleResourceComponent::OnMaxValueDecreased);
 		ResourceObject->OnMaxValueIncreased.AddDynamic(this, &USimpleResourceComponent::OnMaxValueIncreased);
 	}
+	
+	Super::BeginPlay();
 }
 
 void USimpleResourceComponent::SetResourceDate(const FSimpleResourceData& Data)
@@ -54,7 +54,7 @@ void USimpleResourceComponent::IncreaseValue(const int32 Amount, const bool bCla
 	{
 		return;
 	}
-
+	
 	ResourceObject->IncreaseValue(Amount, bClampToMax);
 }
 
@@ -70,6 +70,8 @@ void USimpleResourceComponent::DecreaseMaxValue(int32 Amount, const bool bClampV
 
 void USimpleResourceComponent::IncreaseMaxValue(int32 Amount, const bool bClampValue)
 {
+	ResourceData.MaxValue += Amount;
+
 	if (!ResourceObject)
 	{
 		return;
