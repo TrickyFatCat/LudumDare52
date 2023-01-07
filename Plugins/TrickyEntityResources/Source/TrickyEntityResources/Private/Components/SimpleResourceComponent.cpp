@@ -110,6 +110,16 @@ float USimpleResourceComponent::GetNormalisedValue() const
 	return ResourceObject->GetNormalisedValue();
 }
 
+void USimpleResourceComponent::SetValue(const int32 NewValue)
+{
+	ResourceData.Value = NewValue;
+	
+	if (ResourceObject)
+	{
+		ResourceObject->SetValue(NewValue);
+	}
+}
+
 void USimpleResourceComponent::OnValueDecreased(const int32 NewValue, const int32 Amount)
 {
 	ResourceData.Value = NewValue;
