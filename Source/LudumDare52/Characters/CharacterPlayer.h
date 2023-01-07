@@ -51,7 +51,7 @@ protected:
 	UMeleeAttackComponent* MeleeAttackComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
-	UDamageTriggerComponent* MeleeTriggerComponent = nullptr;
+	UDamageTriggerComponent* DamageTriggerComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	URangedAttackComponent* RangedAttackComponent = nullptr;

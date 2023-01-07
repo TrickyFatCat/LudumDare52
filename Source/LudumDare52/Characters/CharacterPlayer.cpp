@@ -37,8 +37,8 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
 	MeleeAttackComponent = CreateDefaultSubobject<UMeleeAttackComponent>("MeleeAttack");
-	MeleeTriggerComponent = CreateDefaultSubobject<UDamageTriggerComponent>("MeleeDamageTrigger");
-	MeleeTriggerComponent->SetupAttachment(GetRootComponent());
+	DamageTriggerComponent = CreateDefaultSubobject<UDamageTriggerComponent>("MeleeDamageTrigger");
+	DamageTriggerComponent->SetupAttachment(GetRootComponent());
 
 	RangedAttackComponent = CreateDefaultSubobject<URangedAttackComponent>("RangedAttack");
 
