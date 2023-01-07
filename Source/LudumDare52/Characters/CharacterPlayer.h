@@ -6,6 +6,7 @@
 #include "CharacterBase.h"
 #include "CharacterPlayer.generated.h"
 
+class USimpleResourceComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class USoulsCounterComponent;
@@ -44,7 +45,7 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UCoinsCounterComponent* CoinsCounterComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Component")
 	USimpleResourceComponent* HitsCounterComponent = nullptr;
 
 private:
