@@ -60,5 +60,6 @@ private:
 	void LookRight(const float AxisValue);
 
 public:
+	void IncrementMaxPhylacteries(const int32 Amount) const;
 	void IncrementMaxCoins(const int32 Amount) const;
 };

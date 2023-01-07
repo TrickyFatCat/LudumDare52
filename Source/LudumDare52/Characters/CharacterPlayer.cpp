@@ -91,6 +91,11 @@ void ACharacterPlayer::LookRight(const float AxisValue)
 	AddControllerYawInput(AxisValue * CameraYawSensitivity * GetWorld()->GetDeltaSeconds());
 }
 
+void ACharacterPlayer::IncrementMaxPhylacteries(const int32 Amount) const
+{
+	PhylacteryCounterComponent->IncreaseMaxValue(Amount);
+}
+
 void ACharacterPlayer::IncrementMaxCoins(const int32 Amount) const
 {
 	CoinsCounterComponent->IncreaseMaxValue(Amount);
