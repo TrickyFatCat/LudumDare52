@@ -9,6 +9,7 @@
 class USimpleResourceComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
 
 UCLASS()
@@ -38,7 +39,7 @@ protected:
 	USimpleResourceComponent* SoulsCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* PhylacteryCounterComponent = nullptr;
+	UPhylacteriesCounterComponent* PhylacteryCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UCoinsCounterComponent* CoinsCounterComponent = nullptr;

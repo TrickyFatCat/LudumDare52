@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
+#include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -26,7 +27,7 @@ ACharacterPlayer::ACharacterPlayer()
 	constexpr FSimpleResourceData DefaultCountersData{0, 0, true, 0};
 	SoulsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("SoulsCounter");
 	SoulsCounterComponent->SetResourceDate(DefaultCountersData);
-	PhylacteryCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("PhylacteryCounter");
+	PhylacteryCounterComponent = CreateDefaultSubobject<UPhylacteriesCounterComponent>("PhylacteryCounter");
 	PhylacteryCounterComponent->SetResourceDate(DefaultCountersData);
 	CoinsCounterComponent = CreateDefaultSubobject<UCoinsCounterComponent>("CoinsCounter");
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
