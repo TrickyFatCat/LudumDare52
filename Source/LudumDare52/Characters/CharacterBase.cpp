@@ -4,7 +4,6 @@
 #include "CharacterBase.h"
 
 #include "LudumDare52/Components/HitPointsComponent.h"
-#include "LudumDare52/Components/Attacks/AttackComponent.h"
 
 
 ACharacterBase::ACharacterBase()
@@ -19,6 +18,8 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterBase::HandleDeath);
 }
 
 void ACharacterBase::Tick(float DeltaTime)
@@ -36,7 +37,10 @@ void ACharacterBase::FinishAttack()
 	bIsAttacking = false;
 }
 
-void ACharacterBase::DecreaseHitPoints(const int32 Amount)
+void ACharacterBase::HandleDeath()
 {
-	HitPointsComponent->DecreaseValue(Amount);
+	if (DeathMontage)
+	{
+		PlayAnimMontage(DeathMontage);
+	}
 }

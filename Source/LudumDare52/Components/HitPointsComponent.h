@@ -7,9 +7,17 @@
 #include "Components/SimpleResourceComponent.h"
 #include "HitPointsComponent.generated.h"
 
+class UDamageType;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LUDUMDARE52_API UHitPointsComponent : public USimpleResourceComponent
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category="Resource")
+	TSet<TSubclassOf<UDamageType>> Immunities;
+	
+	UFUNCTION(BlueprintCallable)
+	void ApplyDamage(const int32 Amount, TSubclassOf<UDamageType> DamageType);
 };

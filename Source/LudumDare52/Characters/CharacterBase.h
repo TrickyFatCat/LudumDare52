@@ -23,11 +23,14 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UHitPointsComponent* HitPointsComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category="Character")
+	UAnimMontage* DeathMontage = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsAttacking = false;
@@ -35,7 +38,6 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void FinishAttack();
 
-public:
-	UFUNCTION(BlueprintCallable)
-	void DecreaseHitPoints(const int32 Amount);
+	UFUNCTION()
+	virtual void HandleDeath();
 };
