@@ -60,6 +60,7 @@ void ACharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACharacterPlayer::MoveRight);
 	PlayerInputComponent->BindAxis("LookUp", this, &ACharacterPlayer::LookUp);
 	PlayerInputComponent->BindAxis("LookRight", this, &ACharacterPlayer::LookRight);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacterPlayer::Jump);
 }
 
 void ACharacterPlayer::MoveForward(const float AxisValue)
