@@ -21,6 +21,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	UFUNCTION()
-	void HandleDeath();
+	virtual void HandleDeath() override;
 };

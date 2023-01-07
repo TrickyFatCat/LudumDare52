@@ -29,9 +29,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UHitPointsComponent* HitPointsComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category="Character")
+	UAnimMontage* DeathMontage = nullptr;
+
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsAttacking = false;
 
 	UFUNCTION(BlueprintCallable)
 	void FinishAttack();
+
+	UFUNCTION()
+	virtual void HandleDeath();
 };

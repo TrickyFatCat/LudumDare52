@@ -25,7 +25,6 @@ void ACharacterEnemy::BeginPlay()
 		PlayerCharacter->IncrementMaxSouls(1);
 	}
 
-	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterEnemy::HandleDeath);
 }
 
 void ACharacterEnemy::Tick(float DeltaTime)
@@ -35,6 +34,8 @@ void ACharacterEnemy::Tick(float DeltaTime)
 
 void ACharacterEnemy::HandleDeath()
 {
+	Super::HandleDeath();
+	
 	const ACharacterPlayer* PlayerCharacter = Cast<ACharacterPlayer>(UGameplayStatics::GetPlayerCharacter(this, 0));
 
 	if (!IsValid(PlayerCharacter))

@@ -19,6 +19,8 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterBase::HandleDeath);
 }
 
 void ACharacterBase::Tick(float DeltaTime)
@@ -34,4 +36,12 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void ACharacterBase::FinishAttack()
 {
 	bIsAttacking = false;
+}
+
+void ACharacterBase::HandleDeath()
+{
+	if (DeathMontage)
+	{
+		PlayAnimMontage(DeathMontage);
+	}
 }
