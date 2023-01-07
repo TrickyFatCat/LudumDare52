@@ -67,4 +67,7 @@ public:
 	void IncrementMaxSouls(const int32 Amount) const;
 	void IncrementMaxPhylacteries(const int32 Amount) const;
 	void IncrementMaxCoins(const int32 Amount) const;
+
+	UFUNCTION(BlueprintCallable)
+	void LoadCountersValue(const int32 SoulsValue, const int32 PhylacteryValue, const int32 CoinsValue);
 };

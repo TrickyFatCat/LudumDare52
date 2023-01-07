@@ -119,3 +119,10 @@ void ACharacterPlayer::IncrementMaxCoins(const int32 Amount) const
 {
 	CoinsCounterComponent->IncreaseMaxValue(Amount);
 }
+
+void ACharacterPlayer::LoadCountersValue(const int32 SoulsValue, const int32 PhylacteryValue, const int32 CoinsValue)
+{
+	SoulsCounterComponent->SetValue(SoulsValue);
+	PhylacteryCounterComponent->SetValue(PhylacteryValue);
+	CoinsCounterComponent->SetValue(CoinsValue);
+}
