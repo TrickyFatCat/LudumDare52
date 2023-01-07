@@ -10,9 +10,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
-#include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
+#include "LudumDare52/Components/Attacks/AttackComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -34,9 +34,7 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent = CreateDefaultSubobject<UCoinsCounterComponent>("CoinsCounter");
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
-	constexpr FSimpleResourceData HitsDefaultData{3, 3, false, 0};
-	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>("HitPoints");
-	HitPointsComponent->SetResourceDate(HitsDefaultData);
+	MeleeAttackComponent = CreateDefaultSubobject<UAttackComponent>("MeleeAttack");
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
@@ -49,6 +47,8 @@ ACharacterPlayer::ACharacterPlayer()
 void ACharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack); 
 }
 
 void ACharacterPlayer::Tick(float DeltaTime)
@@ -65,6 +65,7 @@ void ACharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookUp", this, &ACharacterPlayer::LookUp);
 	PlayerInputComponent->BindAxis("LookRight", this, &ACharacterPlayer::LookRight);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacterPlayer::Jump);
+	PlayerInputComponent->BindAction("MeleeAttack", IE_Pressed, this, &ACharacterPlayer::StartMeleeAttack);
 }
 
 void ACharacterPlayer::MoveForward(const float AxisValue)
@@ -93,6 +94,17 @@ void ACharacterPlayer::LookRight(const float AxisValue)
 	AddControllerYawInput(AxisValue * CameraYawSensitivity * GetWorld()->GetDeltaSeconds());
 }
 
+void ACharacterPlayer::StartMeleeAttack()
+{
+	if (bIsAttacking)
+	{
+		return;
+	}
+
+	bIsAttacking = true;
+	MeleeAttackComponent->StartAttack();
+}
+
 void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const
 {
 	SoulsCounterComponent->IncreaseMaxValue(Amount);
@@ -106,9 +118,4 @@ void ACharacterPlayer::IncrementMaxPhylacteries(const int32 Amount) const
 void ACharacterPlayer::IncrementMaxCoins(const int32 Amount) const
 {
 	CoinsCounterComponent->IncreaseMaxValue(Amount);
-}
-
-void ACharacterPlayer::DecreaseHitPoints(const int32 Amount) const
-{
-	HitPointsComponent->DecreaseValue(Amount);
 }

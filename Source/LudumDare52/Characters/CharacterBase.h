@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UHitPointsComponent;
+class UAttackComponent;
+
 UCLASS()
 class LUDUMDARE52_API ACharacterBase : public ACharacter
 {
@@ -21,4 +24,18 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UHitPointsComponent* HitPointsComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsAttacking = false;
+
+	UFUNCTION(BlueprintCallable)
+	void FinishAttack();
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void DecreaseHitPoints(const int32 Amount);
 };

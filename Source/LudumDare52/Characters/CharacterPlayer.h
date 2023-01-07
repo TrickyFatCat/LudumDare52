@@ -11,7 +11,7 @@ class UCameraComponent;
 class USoulsCounterComponent;
 class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
-class UHitPointsComponent;
+class UAttackComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterPlayer : public ACharacterBase
@@ -45,8 +45,8 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UCoinsCounterComponent* CoinsCounterComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Component")
-	UHitPointsComponent* HitPointsComponent = nullptr;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UAttackComponent* MeleeAttackComponent = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
@@ -60,11 +60,11 @@ private:
 	void LookUp(const float AxisValue);
 	void LookRight(const float AxisValue);
 
+	UFUNCTION()
+	void StartMeleeAttack();
+
 public:
 	void IncrementMaxSouls(const int32 Amount) const;
 	void IncrementMaxPhylacteries(const int32 Amount) const;
 	void IncrementMaxCoins(const int32 Amount) const;
-
-	UFUNCTION(BlueprintCallable)
-	void DecreaseHitPoints(const int32 Amount) const;
 };
