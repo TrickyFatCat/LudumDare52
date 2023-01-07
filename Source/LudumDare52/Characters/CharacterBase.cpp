@@ -4,7 +4,6 @@
 #include "CharacterBase.h"
 
 #include "LudumDare52/Components/HitPointsComponent.h"
-#include "LudumDare52/Components/Attacks/AttackComponent.h"
 
 
 ACharacterBase::ACharacterBase()
