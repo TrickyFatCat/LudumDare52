@@ -6,7 +6,7 @@
 #include "CharacterBase.h"
 #include "CharacterPlayer.generated.h"
 
-class UMeleeTriggerComponent;
+class UDamageTriggerComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class USoulsCounterComponent;
@@ -51,7 +51,7 @@ protected:
 	UMeleeAttackComponent* MeleeAttackComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
-	UMeleeTriggerComponent* MeleeTriggerComponent = nullptr;
+	UDamageTriggerComponent* MeleeTriggerComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	URangedAttackComponent* RangedAttackComponent = nullptr;

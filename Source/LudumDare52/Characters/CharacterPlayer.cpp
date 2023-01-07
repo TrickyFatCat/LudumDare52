@@ -10,7 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
-#include "LudumDare52/Components/MeleeTriggerComponent.h"
+#include "LudumDare52/Components/DamageTriggerComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
 #include "LudumDare52/Components/Attacks/MeleeAttackComponent.h"
@@ -37,7 +37,7 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
 	MeleeAttackComponent = CreateDefaultSubobject<UMeleeAttackComponent>("MeleeAttack");
-	MeleeTriggerComponent = CreateDefaultSubobject<UMeleeTriggerComponent>("MeleeTrigger");
+	MeleeTriggerComponent = CreateDefaultSubobject<UDamageTriggerComponent>("MeleeDamageTrigger");
 	MeleeTriggerComponent->SetupAttachment(GetRootComponent());
 
 	RangedAttackComponent = CreateDefaultSubobject<URangedAttackComponent>("RangedAttack");

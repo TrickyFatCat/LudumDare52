@@ -5,14 +5,14 @@
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
 #include "UObject/Object.h"
-#include "MeleeTriggerComponent.generated.h"
+#include "DamageTriggerComponent.generated.h"
 
 class UDamageType;
 /**
  * 
  */
 UCLASS()
-class LUDUMDARE52_API UMeleeTriggerComponent : public USphereComponent
+class LUDUMDARE52_API UDamageTriggerComponent : public USphereComponent
 {
 	GENERATED_BODY()
 

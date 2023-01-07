@@ -1,18 +1,18 @@
 ﻿// Copyright (c) 2023. Made by Title Goose Team during LudumDare 52. All rights reserved.
 
 
-#include "MeleeTriggerComponent.h"
+#include "DamageTriggerComponent.h"
 
 #include "HitPointsComponent.h"
 
-void UMeleeTriggerComponent::BeginPlay()
+void UDamageTriggerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnComponentBeginOverlap.AddDynamic(this, &UMeleeTriggerComponent::UMeleeTriggerComponent::HandleBeginOverlap);
+	OnComponentBeginOverlap.AddDynamic(this, &UDamageTriggerComponent::UDamageTriggerComponent::HandleBeginOverlap);
 }
 
-void UMeleeTriggerComponent::HandleBeginOverlap(UPrimitiveComponent* OverlappedComponent,
+void UDamageTriggerComponent::HandleBeginOverlap(UPrimitiveComponent* OverlappedComponent,
                                                 AActor* OtherActor,
                                                 UPrimitiveComponent* OtherComp,
                                                 int32 OtherBodyIndex,
