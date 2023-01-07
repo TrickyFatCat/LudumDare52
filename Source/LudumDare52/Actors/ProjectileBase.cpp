@@ -14,27 +14,33 @@ AProjectileBase::AProjectileBase()
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
 	DamageTriggerComponent = CreateDefaultSubobject<UDamageTriggerComponent>("DamageTriggerComponent");
 	DamageTriggerComponent->SetupAttachment(GetRootComponent());
-	InitialLifeSpan = 1.f;
 }
 
 void AProjectileBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	DamageTriggerComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBase::HandleProjectileHit);
+	DamageTriggerComponent->OnComponentHit.AddDynamic(this, &AProjectileBase::HandleProjectileHit);
+	InitialLocation = GetActorLocation();
 }
 
 void AProjectileBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	const FVector Difference = InitialLocation - GetActorLocation();
+
+	if (Difference.Size() >= MaxDistance)
+	{
+		Destroy();
+	}
 }
 
-void AProjectileBase::HandleProjectileHit(UPrimitiveComponent* OverlappedComponent,
+void AProjectileBase::HandleProjectileHit(UPrimitiveComponent* HitComponent,
                                           AActor* OtherActor,
                                           UPrimitiveComponent* OtherComp,
-                                          int32 OtherBodyIndex,
-                                          bool bFromSweep,
-                                          const FHitResult& SweepResult)
+                                          FVector NormalImpulse,
+                                          const FHitResult& Hit)
 {
 	Destroy();
 }
