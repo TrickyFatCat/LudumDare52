@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UDeathComponent;
 class UHitPointsComponent;
 class UAttackComponent;
 
@@ -29,8 +30,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UHitPointsComponent* HitPointsComponent = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category="Character")
-	UAnimMontage* DeathMontage = nullptr;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UDeathComponent* DeathComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsAttacking = false;
@@ -39,5 +40,6 @@ protected:
 	void FinishAttack();
 
 	UFUNCTION()
-	virtual void HandleDeath();
+	virtual void HandleDeathStart();
+
 };
