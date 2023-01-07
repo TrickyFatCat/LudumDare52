@@ -11,6 +11,7 @@ class UCameraComponent;
 class USoulsCounterComponent;
 class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
+class UMeleeAttackComponent;
 class UAttackComponent;
 
 UCLASS()
@@ -46,7 +47,7 @@ protected:
 	UCoinsCounterComponent* CoinsCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	UAttackComponent* MeleeAttackComponent = nullptr;
+	UMeleeAttackComponent* MeleeAttackComponent = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))

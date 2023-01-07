@@ -13,6 +13,7 @@
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
 #include "LudumDare52/Components/Attacks/AttackComponent.h"
+#include "LudumDare52/Components/Attacks/MeleeAttackComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -34,7 +35,7 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent = CreateDefaultSubobject<UCoinsCounterComponent>("CoinsCounter");
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
-	MeleeAttackComponent = CreateDefaultSubobject<UAttackComponent>("MeleeAttack");
+	MeleeAttackComponent = CreateDefaultSubobject<UMeleeAttackComponent>("MeleeAttack");
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
