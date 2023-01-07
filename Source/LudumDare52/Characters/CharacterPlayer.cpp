@@ -11,6 +11,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
+#include "LudumDare52/Components/SoulsCounterComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -25,7 +26,7 @@ ACharacterPlayer::ACharacterPlayer()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
 	constexpr FSimpleResourceData DefaultCountersData{0, 0, true, 0};
-	SoulsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("SoulsCounter");
+	SoulsCounterComponent = CreateDefaultSubobject<USoulsCounterComponent>("SoulsCounter");
 	SoulsCounterComponent->SetResourceDate(DefaultCountersData);
 	PhylacteryCounterComponent = CreateDefaultSubobject<UPhylacteriesCounterComponent>("PhylacteryCounter");
 	PhylacteryCounterComponent->SetResourceDate(DefaultCountersData);
@@ -89,6 +90,11 @@ void ACharacterPlayer::LookUp(const float AxisValue)
 void ACharacterPlayer::LookRight(const float AxisValue)
 {
 	AddControllerYawInput(AxisValue * CameraYawSensitivity * GetWorld()->GetDeltaSeconds());
+}
+
+void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const
+{
+	SoulsCounterComponent->IncreaseMaxValue(Amount);
 }
 
 void ACharacterPlayer::IncrementMaxPhylacteries(const int32 Amount) const

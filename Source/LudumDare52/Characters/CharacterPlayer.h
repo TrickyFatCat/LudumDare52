@@ -6,9 +6,9 @@
 #include "CharacterBase.h"
 #include "CharacterPlayer.generated.h"
 
-class USimpleResourceComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class USoulsCounterComponent;
 class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
 
@@ -36,7 +36,7 @@ protected:
 	UCameraComponent* CameraComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* SoulsCounterComponent = nullptr;
+	USoulsCounterComponent* SoulsCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UPhylacteriesCounterComponent* PhylacteryCounterComponent = nullptr;
@@ -60,6 +60,7 @@ private:
 	void LookRight(const float AxisValue);
 
 public:
+	void IncrementMaxSouls(const int32 Amount) const;
 	void IncrementMaxPhylacteries(const int32 Amount) const;
 	void IncrementMaxCoins(const int32 Amount) const;
 };
