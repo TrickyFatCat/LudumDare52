@@ -21,6 +21,7 @@ void AProjectileBase::BeginPlay()
 	Super::BeginPlay();
 
 	DamageTriggerComponent->OnComponentHit.AddDynamic(this, &AProjectileBase::HandleProjectileHit);
+	DamageTriggerComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBase::HandleProjectileBeginOverlap);
 	InitialLocation = GetActorLocation();
 }
 
@@ -34,6 +35,16 @@ void AProjectileBase::Tick(float DeltaTime)
 	{
 		Destroy();
 	}
+}
+
+void AProjectileBase::HandleProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent,
+                                                   AActor* OtherActor,
+                                                   UPrimitiveComponent* OtherComp,
+                                                   int32 OtherBodyIndex,
+                                                   bool bFromSweep,
+                                                   const FHitResult& SweepResult)
+{
+	Destroy();
 }
 
 void AProjectileBase::HandleProjectileHit(UPrimitiveComponent* HitComponent,

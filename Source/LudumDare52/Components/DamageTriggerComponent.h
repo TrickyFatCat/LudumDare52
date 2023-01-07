@@ -24,7 +24,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	TSubclassOf<UDamageType> DamageType = nullptr;
-	
+
 	UFUNCTION()
 	void HandleBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	                        AActor* OtherActor,
