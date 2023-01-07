@@ -6,11 +6,13 @@
 #include "CharacterBase.h"
 #include "CharacterPlayer.generated.h"
 
+class UMeleeTriggerComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class USoulsCounterComponent;
 class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
+class UMeleeAttackComponent;
 class UAttackComponent;
 
 UCLASS()
@@ -45,16 +47,20 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UCoinsCounterComponent* CoinsCounterComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	UAttackComponent* MeleeAttackComponent = nullptr;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UMeleeAttackComponent* MeleeAttackComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UMeleeTriggerComponent* MeleeTriggerComponent = nullptr;
+
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
 	float CameraYawSensitivity = 15.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
-	float CameraPitchSensitivity= 15.f;
-	
+	float CameraPitchSensitivity = 15.f;
+
 	void MoveForward(const float AxisValue);
 	void MoveRight(const float AxisValue);
 	void LookUp(const float AxisValue);

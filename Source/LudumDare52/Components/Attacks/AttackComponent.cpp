@@ -4,6 +4,7 @@
 #include "AttackComponent.h"
 
 #include "GameFramework/Character.h"
+#include "LudumDare52/Animation/AnimUtils.h"
 #include "LudumDare52/Animation/FinishAttackNotify.h"
 
 
@@ -29,7 +30,7 @@ void UAttackComponent::BeginPlay()
 		{
 			continue;
 		}
-		UFinishAttackNotify* FinishAttackNotify = UFinishAttackNotify::FindFirstNotifyByClass<UFinishAttackNotify>(
+		UFinishAttackNotify* FinishAttackNotify = UAnimUtils::FindFirstNotifyByClass<UFinishAttackNotify>(
 			AttackMontage);
 
 		if (FinishAttackNotify)

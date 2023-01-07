@@ -116,7 +116,7 @@ void USimpleResourceComponent::SetValue(const int32 NewValue)
 	
 	if (ResourceObject)
 	{
-		SetValue(NewValue);
+		ResourceObject->SetValue(NewValue);
 	}
 }
 
