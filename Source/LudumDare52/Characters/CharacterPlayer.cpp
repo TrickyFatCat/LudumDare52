@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
 
@@ -34,8 +35,8 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
 	constexpr FSimpleResourceData HitsDefaultData{3, 3, false, 0};
-	HitsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("HitsCounterComponent");
-	HitsCounterComponent->SetResourceDate(HitsDefaultData);
+	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>("HitPoints");
+	HitPointsComponent->SetResourceDate(HitsDefaultData);
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
@@ -105,4 +106,9 @@ void ACharacterPlayer::IncrementMaxPhylacteries(const int32 Amount) const
 void ACharacterPlayer::IncrementMaxCoins(const int32 Amount) const
 {
 	CoinsCounterComponent->IncreaseMaxValue(Amount);
+}
+
+void ACharacterPlayer::DecreaseHitPoints(const int32 Amount) const
+{
+	HitPointsComponent->DecreaseValue(Amount);
 }
