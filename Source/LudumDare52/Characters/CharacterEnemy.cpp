@@ -32,9 +32,9 @@ void ACharacterEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ACharacterEnemy::HandleDeath()
+void ACharacterEnemy::HandleDeathStart()
 {
-	Super::HandleDeath();
+	Super::HandleDeathStart();
 	
 	const ACharacterPlayer* PlayerCharacter = Cast<ACharacterPlayer>(UGameplayStatics::GetPlayerCharacter(this, 0));
 

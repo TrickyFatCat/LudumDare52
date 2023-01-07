@@ -10,7 +10,7 @@
 
 UAttackComponent::UAttackComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UAttackComponent::BeginPlay()

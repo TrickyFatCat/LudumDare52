@@ -309,10 +309,11 @@
 		}
 	],
 	"TargetPlatforms": [
-		"Android",
-		"IOS",
 		"Linux",
 		"Mac",
-		"Windows"
+		"Windows",
+		"AllDesktop",
+		"WindowsNoEditor",
+		"LinuxNoEditor"
 	]
 }
