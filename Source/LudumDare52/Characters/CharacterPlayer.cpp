@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "LudumDare52/Components/CoinsCounterComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -22,12 +23,12 @@ ACharacterPlayer::ACharacterPlayer()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("Camera");
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
-	constexpr FSimpleResourceData DefaultCountersData{0, 100, true, 0};
+	constexpr FSimpleResourceData DefaultCountersData{0, 0, true, 0};
 	SoulsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("SoulsCounter");
 	SoulsCounterComponent->SetResourceDate(DefaultCountersData);
 	PhylacteryCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("PhylacteryCounter");
 	PhylacteryCounterComponent->SetResourceDate(DefaultCountersData);
-	CoinsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("CoinsCounter");
+	CoinsCounterComponent = CreateDefaultSubobject<UCoinsCounterComponent>("CoinsCounter");
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
 	constexpr FSimpleResourceData HitsDefaultData{3, 3, false, 0};
@@ -87,4 +88,9 @@ void ACharacterPlayer::LookUp(const float AxisValue)
 void ACharacterPlayer::LookRight(const float AxisValue)
 {
 	AddControllerYawInput(AxisValue * CameraYawSensitivity * GetWorld()->GetDeltaSeconds());
+}
+
+void ACharacterPlayer::IncrementMaxCoins(const int32 Amount) const
+{
+	CoinsCounterComponent->IncreaseMaxValue(Amount);
 }

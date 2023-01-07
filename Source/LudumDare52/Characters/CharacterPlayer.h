@@ -9,6 +9,7 @@
 class USimpleResourceComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class UCoinsCounterComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterPlayer : public ACharacterBase
@@ -40,7 +41,7 @@ protected:
 	USimpleResourceComponent* PhylacteryCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* CoinsCounterComponent = nullptr;
+	UCoinsCounterComponent* CoinsCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	USimpleResourceComponent* HitsCounterComponent = nullptr;
@@ -56,4 +57,7 @@ private:
 	void MoveRight(const float AxisValue);
 	void LookUp(const float AxisValue);
 	void LookRight(const float AxisValue);
+
+public:
+	void IncrementMaxCoins(const int32 Amount) const;
 };
