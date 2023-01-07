@@ -94,6 +94,8 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category="TrickyEntityResources|SimpleResourceComponent")
 	float GetNormalisedValue() const;
+
+	void SetValue(const int32 NewValue);
 private:
 	UPROPERTY()
 	USimpleEntityResource* ResourceObject = nullptr;

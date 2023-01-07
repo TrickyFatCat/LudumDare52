@@ -141,6 +141,8 @@ public:
 
 	void GetResourceData(FSimpleResourceData& Data) const;
 
+	void SetValue(const int32 NewValue);
+
 private:
 	UPROPERTY(BlueprintReadOnly, Category="TrickyEntityResources|SimpleEntityResource", meta=(AllowPrivateAccess))
 	FSimpleResourceData ResourceData;
