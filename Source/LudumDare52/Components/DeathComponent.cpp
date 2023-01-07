@@ -36,7 +36,7 @@ void UDeathComponent::StartDeath() const
 	}
 }
 
-void UDeathComponent::HandleDeathFinish() const
+void UDeathComponent::HandleDeathFinish(USkeletalMeshComponent* SkeletalMeshComponent) const
 {
 	OnDeathFinished.Broadcast();
 }

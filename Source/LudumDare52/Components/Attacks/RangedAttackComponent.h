@@ -9,6 +9,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnProcjectileSpawnedSignature);
 
+class USkeletalMeshComponent;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LUDUMDARE52_API URangedAttackComponent : public UAttackComponent 
 {
@@ -21,5 +23,5 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnProcjectileSpawnedSignature OnProjectileSpawned;
 
-	void HandleProjectileSpawn() const;
+	void HandleProjectileSpawn(USkeletalMeshComponent* SkeletalMeshComponent) const;
 };

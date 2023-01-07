@@ -64,7 +64,7 @@ void UAttackComponent::StartAttack()
 	OnAttackStarted.Broadcast();
 }
 
-void UAttackComponent::FinishAttack()
+void UAttackComponent::FinishAttack(USkeletalMeshComponent* SkeletalMeshComponent)
 {
 	CurrentIndex++;
 	CurrentIndex = CurrentIndex == AttackMontages.Num() ? 0 : CurrentIndex;

@@ -27,7 +27,7 @@ void URangedAttackComponent::BeginPlay()
 	}
 }
 
-void URangedAttackComponent::HandleProjectileSpawn() const
+void URangedAttackComponent::HandleProjectileSpawn(USkeletalMeshComponent* SkeletalMeshComponent) const
 {
 	OnProjectileSpawned.Broadcast();
 }
