@@ -14,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMeleeEndSignature);
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LUDUMDARE52_API UMeleeAttackComponent : public UAttackComponent
 {
 	GENERATED_BODY()

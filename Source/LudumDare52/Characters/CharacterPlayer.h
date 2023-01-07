@@ -13,7 +13,7 @@ class USoulsCounterComponent;
 class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
 class UMeleeAttackComponent;
-class UAttackComponent;
+class URangedAttackComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterPlayer : public ACharacterBase
@@ -53,6 +53,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UMeleeTriggerComponent* MeleeTriggerComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	URangedAttackComponent* RangedAttackComponent = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
@@ -68,6 +70,9 @@ private:
 
 	UFUNCTION()
 	void StartMeleeAttack();
+
+	UFUNCTION()
+	void StartRangedAttack();
 
 public:
 	void IncrementMaxSouls(const int32 Amount) const;
