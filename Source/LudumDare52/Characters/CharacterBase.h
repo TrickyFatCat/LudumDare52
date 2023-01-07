@@ -23,7 +23,7 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
@@ -34,8 +34,4 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void FinishAttack();
-
-public:
-	UFUNCTION(BlueprintCallable)
-	void DecreaseHitPoints(const int32 Amount);
 };

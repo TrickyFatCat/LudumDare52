@@ -35,8 +35,3 @@ void ACharacterBase::FinishAttack()
 {
 	bIsAttacking = false;
 }
-
-void ACharacterBase::DecreaseHitPoints(const int32 Amount)
-{
-	HitPointsComponent->DecreaseValue(Amount);
-}
