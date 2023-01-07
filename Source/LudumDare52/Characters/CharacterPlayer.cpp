@@ -9,6 +9,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "LudumDare52/Components/CoinsCounterComponent.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
+#include "LudumDare52/Components/PhylacteriesCounterComponent.h"
+#include "LudumDare52/Components/SoulsCounterComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -22,17 +26,17 @@ ACharacterPlayer::ACharacterPlayer()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("Camera");
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
-	constexpr FSimpleResourceData DefaultCountersData{0, 100, true, 0};
-	SoulsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("SoulsCounter");
+	constexpr FSimpleResourceData DefaultCountersData{0, 0, true, 0};
+	SoulsCounterComponent = CreateDefaultSubobject<USoulsCounterComponent>("SoulsCounter");
 	SoulsCounterComponent->SetResourceDate(DefaultCountersData);
-	PhylacteryCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("PhylacteryCounter");
+	PhylacteryCounterComponent = CreateDefaultSubobject<UPhylacteriesCounterComponent>("PhylacteryCounter");
 	PhylacteryCounterComponent->SetResourceDate(DefaultCountersData);
-	CoinsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("CoinsCounter");
+	CoinsCounterComponent = CreateDefaultSubobject<UCoinsCounterComponent>("CoinsCounter");
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
 	constexpr FSimpleResourceData HitsDefaultData{3, 3, false, 0};
-	HitsCounterComponent = CreateDefaultSubobject<USimpleResourceComponent>("HitsCounterComponent");
-	HitsCounterComponent->SetResourceDate(HitsDefaultData);
+	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>("HitPoints");
+	HitPointsComponent->SetResourceDate(HitsDefaultData);
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
@@ -87,4 +91,24 @@ void ACharacterPlayer::LookUp(const float AxisValue)
 void ACharacterPlayer::LookRight(const float AxisValue)
 {
 	AddControllerYawInput(AxisValue * CameraYawSensitivity * GetWorld()->GetDeltaSeconds());
+}
+
+void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const
+{
+	SoulsCounterComponent->IncreaseMaxValue(Amount);
+}
+
+void ACharacterPlayer::IncrementMaxPhylacteries(const int32 Amount) const
+{
+	PhylacteryCounterComponent->IncreaseMaxValue(Amount);
+}
+
+void ACharacterPlayer::IncrementMaxCoins(const int32 Amount) const
+{
+	CoinsCounterComponent->IncreaseMaxValue(Amount);
+}
+
+void ACharacterPlayer::DecreaseHitPoints(const int32 Amount) const
+{
+	HitPointsComponent->DecreaseValue(Amount);
 }

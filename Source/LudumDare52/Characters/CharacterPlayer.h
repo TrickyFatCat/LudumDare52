@@ -6,9 +6,12 @@
 #include "CharacterBase.h"
 #include "CharacterPlayer.generated.h"
 
-class USimpleResourceComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class USoulsCounterComponent;
+class UPhylacteriesCounterComponent;
+class UCoinsCounterComponent;
+class UHitPointsComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterPlayer : public ACharacterBase
@@ -34,16 +37,16 @@ protected:
 	UCameraComponent* CameraComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* SoulsCounterComponent = nullptr;
+	USoulsCounterComponent* SoulsCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* PhylacteryCounterComponent = nullptr;
+	UPhylacteriesCounterComponent* PhylacteryCounterComponent = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* CoinsCounterComponent = nullptr;
+	UCoinsCounterComponent* CoinsCounterComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
-	USimpleResourceComponent* HitsCounterComponent = nullptr;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Component")
+	UHitPointsComponent* HitPointsComponent = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
@@ -56,4 +59,12 @@ private:
 	void MoveRight(const float AxisValue);
 	void LookUp(const float AxisValue);
 	void LookRight(const float AxisValue);
+
+public:
+	void IncrementMaxSouls(const int32 Amount) const;
+	void IncrementMaxPhylacteries(const int32 Amount) const;
+	void IncrementMaxCoins(const int32 Amount) const;
+
+	UFUNCTION(BlueprintCallable)
+	void DecreaseHitPoints(const int32 Amount) const;
 };
