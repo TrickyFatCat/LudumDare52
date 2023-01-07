@@ -18,7 +18,7 @@ class LUDUMDARE52_API UDamageTriggerComponent : public USphereComponent
 
 protected:
 	virtual void BeginPlay() override;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	int32 Damage = 1;
 
