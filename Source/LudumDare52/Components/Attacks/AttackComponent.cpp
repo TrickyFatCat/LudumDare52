@@ -71,3 +71,15 @@ void UAttackComponent::FinishAttack(USkeletalMeshComponent* SkeletalMeshComponen
 
 	OnAttackFinished.Broadcast();
 }
+
+void UAttackComponent::StartAutoAttack()
+{
+	StartAttack();
+
+	GetWorld()->GetTimerManager().SetTimer(AttackTimer, this, &UAttackComponent::StartAttack, AttackRate, true);
+}
+
+void UAttackComponent::StopAutoAttack()
+{
+	GetWorld()->GetTimerManager().ClearTimer(AttackTimer);
+}
