@@ -3,6 +3,7 @@
 
 #include "CharacterBase.h"
 
+#include "Components/CapsuleComponent.h"
 #include "LudumDare52/Components/DeathComponent.h"
 #include "LudumDare52/Components/HitPointsComponent.h"
 
@@ -21,7 +22,7 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterBase::HandleDeathStart);
 	DeathComponent->OnDeathFinished.AddDynamic(this, &ACharacterBase::HandleDeathFinish);
 }
@@ -44,6 +45,7 @@ void ACharacterBase::FinishAttack()
 void ACharacterBase::HandleDeathStart()
 {
 	DeathComponent->StartDeath();
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ACharacterBase::HandleDeathFinish()

@@ -13,7 +13,7 @@ AProjectileBase::AProjectileBase()
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
 	DamageTriggerComponent = CreateDefaultSubobject<UDamageTriggerComponent>("DamageTriggerComponent");
-	DamageTriggerComponent->SetupAttachment(GetRootComponent());
+	SetRootComponent(DamageTriggerComponent);
 }
 
 void AProjectileBase::BeginPlay()

@@ -33,7 +33,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UDeathComponent* DeathComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	bool bIsAttacking = false;
 
 	UFUNCTION(BlueprintCallable)
