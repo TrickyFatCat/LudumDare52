@@ -12,6 +12,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
 #include "LudumDare52/Components/DamageTriggerComponent.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
 #include "LudumDare52/Components/PlayerRestartComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
@@ -144,6 +145,8 @@ void ACharacterPlayer::HandleDeathFinish()
 void ACharacterPlayer::HandleRestart()
 {
 	ToggleMovement(true);
+	StopAnimMontage();
+	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
 }
 
 void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
@@ -152,18 +155,7 @@ void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
 
 	if (PlayerController)
 	{
-		bIsEnabled ? PlayerController->EnableInput(PlayerController) : PlayerController->DisableInput(PlayerController);
-		bIsEnabled ? PlayerController->SetInputMode(FInputModeGameOnly()) : PlayerController->SetInputMode(FInputModeUIOnly());
-	}
-
-	if (bIsEnabled)
-	{
-		GetCharacterMovement()->Activate();
-	}
-	else
-	{
-		GetCharacterMovement()->StopMovementImmediately();
-		GetCharacterMovement()->Deactivate();
+		PlayerController->SetIgnoreMoveInput(!bIsEnabled);
 	}
 }
 
