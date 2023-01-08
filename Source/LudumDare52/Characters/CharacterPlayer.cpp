@@ -66,7 +66,7 @@ void ACharacterPlayer::BeginPlay()
 	MeleeAttackComponent->OnMeleeEnd.AddDynamic(this, &ACharacterPlayer::HandleMeleeEnd);
 	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
 	PlayerRestartComponent->OnRestartFinished.AddDynamic(this, &ACharacterPlayer::HandleRestart);
-	
+
 
 	AGameModeSession* GameModeSession = UTrickyGameModeLibrary::GetSessionGameMode(this);
 
@@ -144,9 +144,14 @@ void ACharacterPlayer::StartRangedAttack()
 
 void ACharacterPlayer::HandleDeathStart()
 {
-	ToggleMovement(false);
+	if (bIsDead)
+	{
+		return;
+	}
+	
 	StopAnimMontage();
 	Super::HandleDeathStart();
+	ToggleMovement(false);
 }
 
 void ACharacterPlayer::HandleDeathFinish()
@@ -160,6 +165,7 @@ void ACharacterPlayer::HandleRestart()
 	ToggleMovement(true);
 	StopAnimMontage();
 	FinishAttack();
+	bIsDead = false;
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
 }

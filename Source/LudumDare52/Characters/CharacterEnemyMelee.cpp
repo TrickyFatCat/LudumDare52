@@ -60,4 +60,11 @@ void ACharacterEnemyMelee::HandleAttackEnd()
 	DamageTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void ACharacterEnemyMelee::HandleDeathStart()
+{
+	Super::HandleDeathStart();
+
+	MeleeAttackComponent->StopAutoAttack();
+}
+
 

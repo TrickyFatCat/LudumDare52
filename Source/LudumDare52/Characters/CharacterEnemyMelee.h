@@ -47,4 +47,6 @@ protected:
 
 	UFUNCTION()
 	void HandleAttackEnd();
+
+	virtual void HandleDeathStart() override;
 };

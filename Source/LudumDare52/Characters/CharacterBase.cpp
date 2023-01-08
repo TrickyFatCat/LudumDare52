@@ -44,7 +44,13 @@ void ACharacterBase::FinishAttack()
 
 void ACharacterBase::HandleDeathStart()
 {
+	if (bIsDead)
+	{
+		return;
+	}
+	
 	DeathComponent->StartDeath();
+	bIsDead = true;
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
