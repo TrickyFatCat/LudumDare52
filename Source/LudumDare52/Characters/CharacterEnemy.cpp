@@ -5,6 +5,8 @@
 
 #include "CharacterPlayer.h"
 #include "Kismet/GameplayStatics.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
+#include "LudumDare52/Components/SoulsCounterComponent.h"
 
 
 ACharacterEnemy::ACharacterEnemy()
@@ -22,10 +24,30 @@ void ACharacterEnemy::BeginPlay()
 	{
 		PlayerCharacter->IncrementMaxSouls(1);
 	}
+
 }
 
 void ACharacterEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ACharacterEnemy::HandleDeathStart()
+{
+	Super::HandleDeathStart();
+	
+	const ACharacterPlayer* PlayerCharacter = Cast<ACharacterPlayer>(UGameplayStatics::GetPlayerCharacter(this, 0));
+
+	if (!IsValid(PlayerCharacter))
+	{
+		return;
+	}
+
+	USoulsCounterComponent* SoulsCounterComponent= PlayerCharacter->FindComponentByClass<USoulsCounterComponent>();
+
+	if (SoulsCounterComponent)
+	{
+		SoulsCounterComponent->IncreaseValue(1, true);
+	}
 }
 

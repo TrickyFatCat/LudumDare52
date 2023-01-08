@@ -19,4 +19,7 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+protected:
+	virtual void HandleDeathStart() override;
 };

@@ -4,12 +4,13 @@
 #include "AttackComponent.h"
 
 #include "GameFramework/Character.h"
+#include "LudumDare52/Animation/AnimUtils.h"
 #include "LudumDare52/Animation/FinishAttackNotify.h"
 
 
 UAttackComponent::UAttackComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UAttackComponent::BeginPlay()
@@ -29,7 +30,7 @@ void UAttackComponent::BeginPlay()
 		{
 			continue;
 		}
-		UFinishAttackNotify* FinishAttackNotify = UFinishAttackNotify::FindFirstNotifyByClass<UFinishAttackNotify>(
+		UFinishAttackNotify* FinishAttackNotify = UAnimUtils::FindFirstNotifyByClass<UFinishAttackNotify>(
 			AttackMontage);
 
 		if (FinishAttackNotify)
@@ -63,7 +64,7 @@ void UAttackComponent::StartAttack()
 	OnAttackStarted.Broadcast();
 }
 
-void UAttackComponent::FinishAttack()
+void UAttackComponent::FinishAttack(USkeletalMeshComponent* SkeletalMeshComponent)
 {
 	CurrentIndex++;
 	CurrentIndex = CurrentIndex == AttackMontages.Num() ? 0 : CurrentIndex;

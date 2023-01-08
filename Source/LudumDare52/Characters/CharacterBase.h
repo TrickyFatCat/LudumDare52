@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UDeathComponent;
 class UHitPointsComponent;
 class UAttackComponent;
 
@@ -23,11 +24,14 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UHitPointsComponent* HitPointsComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UDeathComponent* DeathComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsAttacking = false;
@@ -35,7 +39,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void FinishAttack();
 
-public:
-	UFUNCTION(BlueprintCallable)
-	void DecreaseHitPoints(const int32 Amount);
+	UFUNCTION()
+	virtual void HandleDeathStart();
+
+	UFUNCTION()
+	virtual void HandleDeathFinish();
+
 };

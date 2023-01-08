@@ -3,6 +3,7 @@
 
 #include "CharacterPlayer.h"
 
+
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SimpleResourceComponent.h"
@@ -10,9 +11,13 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
+#include "LudumDare52/Components/DamageTriggerComponent.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
+#include "LudumDare52/Components/PlayerRestartComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
-#include "LudumDare52/Components/Attacks/AttackComponent.h"
+#include "LudumDare52/Components/Attacks/MeleeAttackComponent.h"
+#include "LudumDare52/Components/Attacks/RangedAttackComponent.h"
 
 
 ACharacterPlayer::ACharacterPlayer()
@@ -34,7 +39,13 @@ ACharacterPlayer::ACharacterPlayer()
 	CoinsCounterComponent = CreateDefaultSubobject<UCoinsCounterComponent>("CoinsCounter");
 	CoinsCounterComponent->SetResourceDate(DefaultCountersData);
 
-	MeleeAttackComponent = CreateDefaultSubobject<UAttackComponent>("MeleeAttack");
+	MeleeAttackComponent = CreateDefaultSubobject<UMeleeAttackComponent>("MeleeAttack");
+	DamageTriggerComponent = CreateDefaultSubobject<UDamageTriggerComponent>("MeleeDamageTrigger");
+	DamageTriggerComponent->SetupAttachment(GetRootComponent());
+
+	RangedAttackComponent = CreateDefaultSubobject<URangedAttackComponent>("RangedAttack");
+
+	PlayerRestartComponent = CreateDefaultSubobject<UPlayerRestartComponent>("PlayerRestart");
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
@@ -48,7 +59,9 @@ void ACharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack); 
+	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
+	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
+	PlayerRestartComponent->OnRestartFinished.AddDynamic(this, &ACharacterPlayer::HandleRestart);
 }
 
 void ACharacterPlayer::Tick(float DeltaTime)
@@ -66,6 +79,7 @@ void ACharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookRight", this, &ACharacterPlayer::LookRight);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacterPlayer::Jump);
 	PlayerInputComponent->BindAction("MeleeAttack", IE_Pressed, this, &ACharacterPlayer::StartMeleeAttack);
+	PlayerInputComponent->BindAction("RangedAttack", IE_Pressed, this, &ACharacterPlayer::StartRangedAttack);
 }
 
 void ACharacterPlayer::MoveForward(const float AxisValue)
@@ -103,6 +117,48 @@ void ACharacterPlayer::StartMeleeAttack()
 
 	bIsAttacking = true;
 	MeleeAttackComponent->StartAttack();
+}
+
+void ACharacterPlayer::StartRangedAttack()
+{
+	if (bIsAttacking)
+	{
+		return;
+	}
+
+	bIsAttacking = true;
+	RangedAttackComponent->StartAttack();
+}
+
+void ACharacterPlayer::HandleDeathStart()
+{
+	ToggleMovement(false);
+	Super::HandleDeathStart();
+}
+
+void ACharacterPlayer::HandleDeathFinish()
+{
+	Super::HandleDeathFinish();
+	PlayerRestartComponent->Restart();
+}
+
+void ACharacterPlayer::HandleRestart()
+{
+	ToggleMovement(true);
+	StopAnimMontage();
+	FinishAttack();
+	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
+}
+
+void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
+{
+	APlayerController* PlayerController = GetController<APlayerController>();
+
+	if (PlayerController)
+	{
+		PlayerController->SetIgnoreMoveInput(!bIsEnabled);
+		bIsEnabled ? PlayerController->EnableInput(PlayerController) : PlayerController->DisableInput(PlayerController);
+	}
 }
 
 void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const

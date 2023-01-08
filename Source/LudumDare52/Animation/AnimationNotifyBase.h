@@ -6,9 +6,9 @@
 #include "UObject/Object.h"
 #include "AnimationNotifyBase.generated.h"
 
+class USkeletalMeshComponent;
 
-DECLARE_MULTICAST_DELEGATE(FOnNotifiedSignature)
-
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnNotifiedSignature, USkeletalMeshComponent*)
 /**
  * 
  */
@@ -20,24 +20,4 @@ class LUDUMDARE52_API UAnimationNotifyBase : public UAnimNotify
 public:
 	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;
 	FOnNotifiedSignature OnNotified;
-
-	template <typename T>
-	static T* FindFirstNotifyByClass(UAnimSequenceBase* Animation)
-	{
-		if (!Animation) return nullptr;
-
-		const auto NotifyEvents = Animation->Notifies;
-
-		for (auto NotifyEvent : NotifyEvents)
-		{
-			auto AnimNotify = Cast<T>(NotifyEvent.Notify);
-
-			if (AnimNotify)
-			{
-				return AnimNotify;
-			}
-		}
-
-		return nullptr;
-	}
 };
