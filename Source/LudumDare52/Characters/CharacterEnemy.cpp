@@ -90,6 +90,7 @@ void ACharacterEnemy::EnterAttackState()
 
 void ACharacterEnemy::ExitAttackState()
 {
+	// FinishAttack();
 	bIsAttacking = false;
 	FocusComponent->StartFocusing();
 }
