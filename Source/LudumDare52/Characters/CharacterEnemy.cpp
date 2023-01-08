@@ -66,6 +66,7 @@ void ACharacterEnemy::HandleDeathStart()
 	}
 	
 	FocusComponent->StopFocusing();
+	FocusComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetMesh()->Stop();
 	AttackTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
