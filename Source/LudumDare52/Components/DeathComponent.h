@@ -7,6 +7,7 @@
 #include "DeathComponent.generated.h"
 
 class UAnimMontage;
+class USkeletalMeshComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeathStartedSignature);
 
@@ -37,5 +38,5 @@ public:
 	void StartDeath() const;
 
 protected:
-	void HandleDeathFinish() const;
+	void HandleDeathFinish(USkeletalMeshComponent* SkeletalMeshComponent) const;
 };

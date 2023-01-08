@@ -35,7 +35,7 @@ public:
 	void StartAttack();
 
 	UFUNCTION(BlueprintCallable)
-	void FinishAttack();
+	void FinishAttack(USkeletalMeshComponent* SkeletalMeshComponent);
 
 protected:
 	UPROPERTY()
