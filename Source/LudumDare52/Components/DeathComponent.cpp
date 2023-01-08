@@ -16,17 +16,22 @@ UDeathComponent::UDeathComponent()
 void UDeathComponent::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
+void UDeathComponent::StartDeath() const
+{
+	if (!DeathMontage)
+	{
+		return;
+	}
+	
 	UDeathFinishedNotify* DeathFinishedNotify = UAnimUtils::FindFirstNotifyByClass<UDeathFinishedNotify>(DeathMontage);
 
 	if (DeathFinishedNotify)
 	{
 		DeathFinishedNotify->OnNotified.AddUObject(this, &UDeathComponent::HandleDeathFinish);
 	}
-}
-
-void UDeathComponent::StartDeath() const
-{
+	
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 
 	if (IsValid(Character) && DeathMontage)
@@ -36,8 +41,7 @@ void UDeathComponent::StartDeath() const
 	}
 }
 
-void UDeathComponent::HandleDeathFinish() const
+void UDeathComponent::HandleDeathFinish(USkeletalMeshComponent* SkeletalMeshComponent) const
 {
 	OnDeathFinished.Broadcast();
 }
-

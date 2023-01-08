@@ -11,6 +11,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMeleeBeginSingnature);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMeleeEndSignature);
 
+class USkeletalMeshComponent;
+
 /**
  * 
  */
@@ -23,8 +25,8 @@ protected:
 	virtual void BeginPlay() override;
 
 
-	void HandleMeleeBegin();
-	void HandleMeleeEnd();
+	void HandleMeleeBegin(USkeletalMeshComponent* SkeletalMeshComponent);
+	void HandleMeleeEnd(USkeletalMeshComponent* SkeletalMeshComponent);
 
 public:
 	UPROPERTY(BlueprintAssignable)
