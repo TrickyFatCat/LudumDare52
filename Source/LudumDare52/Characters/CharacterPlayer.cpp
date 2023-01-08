@@ -4,6 +4,8 @@
 #include "CharacterPlayer.h"
 
 
+#include "GameModeSession.h"
+#include "TrickyGameModeLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SimpleResourceComponent.h"
@@ -62,6 +64,13 @@ void ACharacterPlayer::BeginPlay()
 	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
 	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
 	PlayerRestartComponent->OnRestartFinished.AddDynamic(this, &ACharacterPlayer::HandleRestart);
+
+	AGameModeSession* GameModeSession = UTrickyGameModeLibrary::GetSessionGameMode(this);
+
+	if (GameModeSession)
+	{
+		GameModeSession->OnSessionFinished.AddDynamic(this, &ACharacterPlayer::HandleSessionFinish);
+	}
 }
 
 void ACharacterPlayer::Tick(float DeltaTime)
@@ -110,7 +119,7 @@ void ACharacterPlayer::LookRight(const float AxisValue)
 
 void ACharacterPlayer::StartMeleeAttack()
 {
-	if (bIsAttacking)
+	if (bIsAttacking || HitPointsComponent->GetValue() == 0)
 	{
 		return;
 	}
@@ -121,7 +130,7 @@ void ACharacterPlayer::StartMeleeAttack()
 
 void ACharacterPlayer::StartRangedAttack()
 {
-	if (bIsAttacking)
+	if (bIsAttacking || HitPointsComponent->GetValue() == 0)
 	{
 		return;
 	}
@@ -133,6 +142,7 @@ void ACharacterPlayer::StartRangedAttack()
 void ACharacterPlayer::HandleDeathStart()
 {
 	ToggleMovement(false);
+	StopAnimMontage();
 	Super::HandleDeathStart();
 }
 
@@ -148,6 +158,12 @@ void ACharacterPlayer::HandleRestart()
 	StopAnimMontage();
 	FinishAttack();
 	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
+}
+
+void ACharacterPlayer::HandleSessionFinish(bool bIsVictory, float FinalTime)
+{
+	ToggleMovement(false);
+	StopAnimMontage();
 }
 
 void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
