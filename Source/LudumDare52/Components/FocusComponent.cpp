@@ -29,7 +29,7 @@ void UFocusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		const FRotator Rotation = GetOwner()->GetActorRotation();
 		const FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(Location, TargetLocation);
 		const FRotator NewRotation = FMath::RInterpTo(Rotation, TargetRotation, DeltaTime, RotationSpeed);
-		GetOwner()->SetActorRotation(FRotator{NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll});
+		GetOwner()->SetActorRotation(FRotator{0.f, NewRotation.Yaw, 0.f});
 	}
 }
 

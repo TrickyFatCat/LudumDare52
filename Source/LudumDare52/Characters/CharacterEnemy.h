@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
-#include "LudumDare52/Components/Attacks/AttackComponent.h"
 #include "CharacterEnemy.generated.h"
 
 class USphereComponent;
