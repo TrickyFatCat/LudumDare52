@@ -30,12 +30,21 @@ public:
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnAttackFinishedSignature OnAttackFinished;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float AttackRate = 4.f;
 	
 	UFUNCTION(BlueprintCallable)
 	void StartAttack();
 
 	UFUNCTION(BlueprintCallable)
 	void FinishAttack(USkeletalMeshComponent* SkeletalMeshComponent);
+
+	UFUNCTION(BlueprintCallable)
+	void StartAutoAttack();
+	
+	UFUNCTION(BlueprintCallable)
+	void StopAutoAttack();
 
 protected:
 	UPROPERTY()
@@ -45,4 +54,6 @@ protected:
 	TArray<UAnimMontage*> AttackMontages;
 
 	int32 CurrentIndex = 0;
+
+	FTimerHandle AttackTimer;
 };

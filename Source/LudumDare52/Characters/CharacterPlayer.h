@@ -89,6 +89,12 @@ private:
 	void HandleSessionFinish(bool bIsVictory, float FinalTime);
 	void ToggleMovement(const bool bIsEnabled) const;
 
+	UFUNCTION()
+	void HandleMeleeBegin();
+
+	UFUNCTION()
+	void HandleMeleeEnd();
+
 public:
 	void IncrementMaxSouls(const int32 Amount) const;
 	void IncrementMaxPhylacteries(const int32 Amount) const;
