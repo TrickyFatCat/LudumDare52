@@ -10,7 +10,7 @@ public class LudumDare52 : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "TrickyEntityResources", "UMG"});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "TrickyPickups" , "TrickyUserInterface"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "TrickyPickups" , "TrickyUserInterface", "TrickyGameMode" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
