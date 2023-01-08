@@ -54,3 +54,13 @@ void ACharacterEnemy::HandleDeathStart()
 	}
 }
 
+void ACharacterEnemy::StartAutoAttack(UAttackComponent* AttackComponent)
+{
+	if (bIsAttacking)
+	{
+		return;
+	}
+	
+	AttackComponent->StartAutoAttack();
+	bIsAttacking = true;
+}
