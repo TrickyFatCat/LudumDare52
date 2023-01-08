@@ -8,6 +8,7 @@
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "LudumDare52/Components/FocusComponent.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
 
 
@@ -36,6 +37,7 @@ void ACharacterEnemy::BeginPlay()
 	AttackTriggerComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttackEndOverlap);
 	FocusComponent->OnComponentBeginOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionBeginOverlap);
 	FocusComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionEndOverlap);
+	HitPointsComponent->OnResourceValueZero.AddDynamic(FocusComponent, &UFocusComponent::StopFocusing);
 }
 
 void ACharacterEnemy::Tick(float DeltaTime)
@@ -72,12 +74,24 @@ void ACharacterEnemy::StartAutoAttack(UAttackComponent* AttackComponent)
 	}
 
 	AttackComponent->StartAutoAttack();
-	bIsAttacking = true;
+	EnterAttackState();
 }
 
 void ACharacterEnemy::StopAutoAttack(UAttackComponent* AttackComponent)
 {
 	AttackComponent->StopAutoAttack();
+}
+
+void ACharacterEnemy::EnterAttackState()
+{ 
+	bIsAttacking = true;
+	FocusComponent->StopFocusing();
+}
+
+void ACharacterEnemy::ExitAttackState()
+{
+	bIsAttacking = false;
+	FocusComponent->StartFocusing();
 }
 
 void ACharacterEnemy::HandleAttackBeginOverlap(UPrimitiveComponent* OverlappedComponent,

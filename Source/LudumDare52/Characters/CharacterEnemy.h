@@ -39,6 +39,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void StopAutoAttack(UAttackComponent* AttackComponent);
 
+	UFUNCTION(BlueprintCallable)
+	void EnterAttackState();
+
+	UFUNCTION(BlueprintCallable)
+	void ExitAttackState();
+
 	UFUNCTION()
 	virtual void HandleAttackBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	                                      AActor* OtherActor,

@@ -19,6 +19,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadWrite)
 	bool bIsFocusing = false;
 
 	UPROPERTY()
