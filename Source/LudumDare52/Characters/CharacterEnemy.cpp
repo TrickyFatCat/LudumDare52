@@ -64,3 +64,8 @@ void ACharacterEnemy::StartAutoAttack(UAttackComponent* AttackComponent)
 	AttackComponent->StartAutoAttack();
 	bIsAttacking = true;
 }
+
+void ACharacterEnemy::StopAutoAttack(UAttackComponent* AttackComponent)
+{
+	AttackComponent->StopAutoAttack();
+}

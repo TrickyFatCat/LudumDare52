@@ -26,4 +26,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void StartAutoAttack(UAttackComponent* AttackComponent);
+
+	UFUNCTION(BlueprintCallable)
+	void StopAutoAttack(UAttackComponent* AttackComponent);
 };
