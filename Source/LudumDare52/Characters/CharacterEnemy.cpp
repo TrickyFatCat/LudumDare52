@@ -37,7 +37,6 @@ void ACharacterEnemy::BeginPlay()
 	AttackTriggerComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttackEndOverlap);
 	FocusComponent->OnComponentBeginOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionBeginOverlap);
 	FocusComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionEndOverlap);
-	// HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterEnemy::HandleDeathStart);
 }
 
 void ACharacterEnemy::Tick(float DeltaTime)
