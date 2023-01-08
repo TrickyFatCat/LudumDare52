@@ -62,8 +62,11 @@ void ACharacterPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
+	MeleeAttackComponent->OnMeleeBegin.AddDynamic(this, &ACharacterPlayer::HandleMeleeBegin);
+	MeleeAttackComponent->OnMeleeEnd.AddDynamic(this, &ACharacterPlayer::HandleMeleeEnd);
 	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
 	PlayerRestartComponent->OnRestartFinished.AddDynamic(this, &ACharacterPlayer::HandleRestart);
+	
 
 	AGameModeSession* GameModeSession = UTrickyGameModeLibrary::GetSessionGameMode(this);
 
@@ -176,6 +179,16 @@ void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
 		PlayerController->SetIgnoreMoveInput(!bIsEnabled);
 		bIsEnabled ? PlayerController->EnableInput(PlayerController) : PlayerController->DisableInput(PlayerController);
 	}
+}
+
+void ACharacterPlayer::HandleMeleeBegin()
+{
+	DamageTriggerComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void ACharacterPlayer::HandleMeleeEnd()
+{
+	DamageTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const
