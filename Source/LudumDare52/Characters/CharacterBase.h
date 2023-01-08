@@ -42,4 +42,7 @@ protected:
 	UFUNCTION()
 	virtual void HandleDeathStart();
 
+	UFUNCTION()
+	virtual void HandleDeathFinish();
+
 };

@@ -21,8 +21,9 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterBase::HandleDeathStart);
+	DeathComponent->OnDeathFinished.AddDynamic(this, &ACharacterBase::HandleDeathFinish);
 }
 
 void ACharacterBase::Tick(float DeltaTime)
@@ -43,4 +44,8 @@ void ACharacterBase::FinishAttack()
 void ACharacterBase::HandleDeathStart()
 {
 	DeathComponent->StartDeath();
+}
+
+void ACharacterBase::HandleDeathFinish()
+{
 }

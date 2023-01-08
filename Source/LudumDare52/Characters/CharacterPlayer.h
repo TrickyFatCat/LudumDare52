@@ -14,6 +14,8 @@ class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
 class UMeleeAttackComponent;
 class URangedAttackComponent;
+class UTransitionScreenWidget;
+class UPlayerRestartComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterPlayer : public ACharacterBase
@@ -56,6 +58,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	URangedAttackComponent* RangedAttackComponent = nullptr;
 
+	UPROPERTY(VisibleDefaultsOnly, Category="Components")
+	UPlayerRestartComponent* PlayerRestartComponent = nullptr;
+
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
 	float CameraYawSensitivity = 15.f;
@@ -73,6 +78,14 @@ private:
 
 	UFUNCTION()
 	void StartRangedAttack();
+
+	virtual void HandleDeathStart() override;
+	virtual void HandleDeathFinish() override;
+
+	UFUNCTION()
+	void HandleRestart();
+
+	void ToggleMovement(const bool bIsEnabled) const;
 
 public:
 	void IncrementMaxSouls(const int32 Amount) const;
