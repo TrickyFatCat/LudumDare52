@@ -3,6 +3,7 @@
 
 #include "CharacterPlayer.h"
 
+
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SimpleResourceComponent.h"
@@ -11,7 +12,9 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "LudumDare52/Components/CoinsCounterComponent.h"
 #include "LudumDare52/Components/DamageTriggerComponent.h"
+#include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/PhylacteriesCounterComponent.h"
+#include "LudumDare52/Components/PlayerRestartComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
 #include "LudumDare52/Components/Attacks/MeleeAttackComponent.h"
 #include "LudumDare52/Components/Attacks/RangedAttackComponent.h"
@@ -42,6 +45,8 @@ ACharacterPlayer::ACharacterPlayer()
 
 	RangedAttackComponent = CreateDefaultSubobject<URangedAttackComponent>("RangedAttack");
 
+	PlayerRestartComponent = CreateDefaultSubobject<UPlayerRestartComponent>("PlayerRestart");
+
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
@@ -56,6 +61,7 @@ void ACharacterPlayer::BeginPlay()
 
 	MeleeAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
 	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterPlayer::FinishAttack);
+	PlayerRestartComponent->OnRestartFinished.AddDynamic(this, &ACharacterPlayer::HandleRestart);
 }
 
 void ACharacterPlayer::Tick(float DeltaTime)
@@ -122,6 +128,35 @@ void ACharacterPlayer::StartRangedAttack()
 
 	bIsAttacking = true;
 	RangedAttackComponent->StartAttack();
+}
+
+void ACharacterPlayer::HandleDeathStart()
+{
+	ToggleMovement(false);
+	Super::HandleDeathStart();
+}
+
+void ACharacterPlayer::HandleDeathFinish()
+{
+	Super::HandleDeathFinish();
+	PlayerRestartComponent->Restart();
+}
+
+void ACharacterPlayer::HandleRestart()
+{
+	ToggleMovement(true);
+	StopAnimMontage();
+	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
+}
+
+void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
+{
+	APlayerController* PlayerController = GetController<APlayerController>();
+
+	if (PlayerController)
+	{
+		PlayerController->SetIgnoreMoveInput(!bIsEnabled);
+	}
 }
 
 void ACharacterPlayer::IncrementMaxSouls(const int32 Amount) const
