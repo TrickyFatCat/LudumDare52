@@ -37,7 +37,7 @@ void ACharacterEnemy::BeginPlay()
 	AttackTriggerComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttackEndOverlap);
 	FocusComponent->OnComponentBeginOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionBeginOverlap);
 	FocusComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionEndOverlap);
-	HitPointsComponent->OnResourceValueZero.AddDynamic(FocusComponent, &UFocusComponent::StopFocusing);
+	// HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterEnemy::HandleDeathStart);
 }
 
 void ACharacterEnemy::Tick(float DeltaTime)
@@ -64,6 +64,10 @@ void ACharacterEnemy::HandleDeathStart()
 	{
 		SoulsCounterComponent->IncreaseValue(1, true);
 	}
+	
+	FocusComponent->StopFocusing();
+	GetMesh()->Stop();
+	AttackTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ACharacterEnemy::StartAutoAttack(UAttackComponent* AttackComponent)
@@ -83,14 +87,13 @@ void ACharacterEnemy::StopAutoAttack(UAttackComponent* AttackComponent)
 }
 
 void ACharacterEnemy::EnterAttackState()
-{ 
+{
 	bIsAttacking = true;
 	FocusComponent->StopFocusing();
 }
 
 void ACharacterEnemy::ExitAttackState()
 {
-	// FinishAttack();
 	bIsAttacking = false;
 	FocusComponent->StartFocusing();
 }
