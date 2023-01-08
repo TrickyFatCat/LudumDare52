@@ -25,6 +25,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	TSubclassOf<UDamageType> DamageType = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	bool bLaunchCharacter = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	FVector LaunchPower {1500.f, 1500.f, 2000.f};
 	UFUNCTION()
 	void HandleBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	                        AActor* OtherActor,
