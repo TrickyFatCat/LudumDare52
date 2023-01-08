@@ -62,7 +62,7 @@ void APlayerControllerSession::OnGameModeStateChanged_Implementation(EGameModeSt
 			break;
 
 		StopMovement();
-		GetPawn()->TurnOff();
+		// GetPawn()->TurnOff();
 		break;
 
 	case EGameModeState::Pause:

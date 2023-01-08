@@ -6,14 +6,16 @@
 #include "CharacterBase.h"
 #include "CharacterPlayer.generated.h"
 
-class UMeleeTriggerComponent;
+class UDamageTriggerComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class USoulsCounterComponent;
 class UPhylacteriesCounterComponent;
 class UCoinsCounterComponent;
 class UMeleeAttackComponent;
-class UAttackComponent;
+class URangedAttackComponent;
+class UTransitionScreenWidget;
+class UPlayerRestartComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterPlayer : public ACharacterBase
@@ -51,8 +53,13 @@ protected:
 	UMeleeAttackComponent* MeleeAttackComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
-	UMeleeTriggerComponent* MeleeTriggerComponent = nullptr;
+	UDamageTriggerComponent* DamageTriggerComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	URangedAttackComponent* RangedAttackComponent = nullptr;
+
+	UPROPERTY(VisibleDefaultsOnly, Category="Components")
+	UPlayerRestartComponent* PlayerRestartComponent = nullptr;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Controls", meta=(AllowPrivateAccess))
@@ -68,6 +75,17 @@ private:
 
 	UFUNCTION()
 	void StartMeleeAttack();
+
+	UFUNCTION()
+	void StartRangedAttack();
+
+	virtual void HandleDeathStart() override;
+	virtual void HandleDeathFinish() override;
+
+	UFUNCTION()
+	void HandleRestart();
+
+	void ToggleMovement(const bool bIsEnabled) const;
 
 public:
 	void IncrementMaxSouls(const int32 Amount) const;

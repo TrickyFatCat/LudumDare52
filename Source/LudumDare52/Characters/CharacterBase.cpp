@@ -3,6 +3,7 @@
 
 #include "CharacterBase.h"
 
+#include "LudumDare52/Components/DeathComponent.h"
 #include "LudumDare52/Components/HitPointsComponent.h"
 
 
@@ -13,13 +14,16 @@ ACharacterBase::ACharacterBase()
 	constexpr FSimpleResourceData DefaultData{1, 1};
 	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>("HitPoints");
 	HitPointsComponent->SetResourceDate(DefaultData);
+
+	DeathComponent = CreateDefaultSubobject<UDeathComponent>("Death");
 }
 
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterBase::HandleDeath);
+	
+	HitPointsComponent->OnResourceValueZero.AddDynamic(this, &ACharacterBase::HandleDeathStart);
+	DeathComponent->OnDeathFinished.AddDynamic(this, &ACharacterBase::HandleDeathFinish);
 }
 
 void ACharacterBase::Tick(float DeltaTime)
@@ -37,10 +41,11 @@ void ACharacterBase::FinishAttack()
 	bIsAttacking = false;
 }
 
-void ACharacterBase::HandleDeath()
+void ACharacterBase::HandleDeathStart()
 {
-	if (DeathMontage)
-	{
-		PlayAnimMontage(DeathMontage);
-	}
+	DeathComponent->StartDeath();
+}
+
+void ACharacterBase::HandleDeathFinish()
+{
 }

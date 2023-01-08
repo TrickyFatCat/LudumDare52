@@ -11,10 +11,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMeleeBeginSingnature);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMeleeEndSignature);
 
+class USkeletalMeshComponent;
+
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LUDUMDARE52_API UMeleeAttackComponent : public UAttackComponent
 {
 	GENERATED_BODY()
@@ -23,8 +25,8 @@ protected:
 	virtual void BeginPlay() override;
 
 
-	void HandleMeleeBegin();
-	void HandleMeleeEnd();
+	void HandleMeleeBegin(USkeletalMeshComponent* SkeletalMeshComponent);
+	void HandleMeleeEnd(USkeletalMeshComponent* SkeletalMeshComponent);
 
 public:
 	UPROPERTY(BlueprintAssignable)
