@@ -146,6 +146,7 @@ void ACharacterPlayer::HandleRestart()
 {
 	ToggleMovement(true);
 	StopAnimMontage();
+	FinishAttack();
 	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
 }
 
@@ -156,6 +157,7 @@ void ACharacterPlayer::ToggleMovement(const bool bIsEnabled) const
 	if (PlayerController)
 	{
 		PlayerController->SetIgnoreMoveInput(!bIsEnabled);
+		bIsEnabled ? PlayerController->EnableInput(PlayerController) : PlayerController->DisableInput(PlayerController);
 	}
 }
 
