@@ -63,10 +63,9 @@ void ACharacterEnemy::HandleDeathStart()
 	{
 		SoulsCounterComponent->IncreaseValue(1, true);
 	}
-	
+
 	FocusComponent->StopFocusing();
 	FocusComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	GetMesh()->Stop();
 	AttackTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
@@ -89,7 +88,11 @@ void ACharacterEnemy::StopAutoAttack(UAttackComponent* AttackComponent)
 void ACharacterEnemy::EnterAttackState()
 {
 	bIsAttacking = true;
-	FocusComponent->StopFocusing();
+
+	if (bDisableFocusOnAttack)
+	{
+		FocusComponent->StopFocusing();
+	}
 }
 
 void ACharacterEnemy::ExitAttackState()

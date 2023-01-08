@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	USphereComponent* AttackTriggerComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool bDisableFocusOnAttack = true;
+
 public:
 	virtual void Tick(float DeltaTime) override;
 

@@ -3,24 +3,54 @@
 
 #include "CharacterEnemyRanged.h"
 
+#include "LudumDare52/Components/Attacks/RangedAttackComponent.h"
 
-// Sets default values
+
 ACharacterEnemyRanged::ACharacterEnemyRanged()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	RangedAttackComponent = CreateDefaultSubobject<URangedAttackComponent>("RangedAttack");
 }
 
-// Called when the game starts or when spawned
 void ACharacterEnemyRanged::BeginPlay()
 {
+
 	Super::BeginPlay();
-	
+	RangedAttackComponent->OnAttackStarted.AddDynamic(this, &ACharacterEnemyRanged::EnterAttackState);
+	RangedAttackComponent->OnAttackFinished.AddDynamic(this, &ACharacterEnemyRanged::ExitAttackState);
 }
 
-// Called every frame
 void ACharacterEnemyRanged::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
+void ACharacterEnemyRanged::HandleDeathStart()
+{
+	Super::HandleDeathStart();
+
+	RangedAttackComponent->StopAutoAttack();
+}
+
+void ACharacterEnemyRanged::HandleAttackBeginOverlap(UPrimitiveComponent* OverlappedComponent,
+                                                     AActor* OtherActor,
+                                                     UPrimitiveComponent* OtherComp,
+                                                     int32 OtherBodyIndex,
+                                                     bool bFromSweep,
+                                                     const FHitResult& SweepResult)
+{
+	Super::HandleAttackBeginOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep,
+	                                SweepResult);
+	RangedAttackComponent->StartAutoAttack();
+}
+
+void ACharacterEnemyRanged::HandleAttackEndOverlap(UPrimitiveComponent* OverlappedComponent,
+                                                   AActor* OtherActor,
+                                                   UPrimitiveComponent* OtherComp,
+                                                   int32 OtherBodyIndex)
+{
+	Super::HandleAttackEndOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex);
+
+	RangedAttackComponent->StopAutoAttack();
+}
