@@ -24,7 +24,7 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
@@ -44,5 +44,8 @@ protected:
 
 	UFUNCTION()
 	virtual void HandleDeathFinish();
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsDead = false;
 
 };
