@@ -4,6 +4,7 @@
 #include "CharacterEnemy.h"
 
 #include "CharacterPlayer.h"
+#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
@@ -35,6 +36,8 @@ void ACharacterEnemy::Tick(float DeltaTime)
 void ACharacterEnemy::HandleDeathStart()
 {
 	Super::HandleDeathStart();
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
 	const ACharacterPlayer* PlayerCharacter = Cast<ACharacterPlayer>(UGameplayStatics::GetPlayerCharacter(this, 0));
 

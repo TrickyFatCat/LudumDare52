@@ -157,6 +157,7 @@ void ACharacterPlayer::HandleRestart()
 	ToggleMovement(true);
 	StopAnimMontage();
 	FinishAttack();
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	HitPointsComponent->IncreaseValue(HitPointsComponent->GetMaxValue());
 }
 
