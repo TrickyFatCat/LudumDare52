@@ -10,6 +10,7 @@
 #include "LudumDare52/Components/FocusComponent.h"
 #include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
+#include "LudumDare52/Components/Attacks/AttackComponent.h"
 
 
 ACharacterEnemy::ACharacterEnemy()
