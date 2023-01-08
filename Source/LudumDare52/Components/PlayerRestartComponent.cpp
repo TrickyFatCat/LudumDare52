@@ -15,7 +15,7 @@ void UPlayerRestartComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitialLocation = GetOwner()->GetActorLocation();
+	InitialTransform = GetOwner()->GetActorTransform();
 
 	if (TransitionWidgetClass)
 	{
@@ -28,7 +28,7 @@ void UPlayerRestartComponent::BeginPlay()
 
 void UPlayerRestartComponent::FinishRestart()
 {
-	GetOwner()->SetActorLocation(InitialLocation);
+	GetOwner()->SetActorTransform(InitialTransform);
 	OnRestartFinished.Broadcast();
 	TransitionScreenWidget->Hide();
 }

@@ -36,7 +36,7 @@ protected:
 	UTransitionScreenWidget* TransitionScreenWidget = nullptr;
 
 private:
-	FVector InitialLocation{FVector::ZeroVector};
+	FTransform InitialTransform;
 
 	UFUNCTION()
 	void FinishRestart();
