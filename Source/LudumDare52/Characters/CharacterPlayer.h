@@ -58,7 +58,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
 	URangedAttackComponent* RangedAttackComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, Category="Components")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	UPlayerRestartComponent* PlayerRestartComponent = nullptr;
 
 private:
@@ -85,6 +85,8 @@ private:
 	UFUNCTION()
 	void HandleRestart();
 
+	UFUNCTION()
+	void HandleSessionFinish(bool bIsVictory, float FinalTime);
 	void ToggleMovement(const bool bIsEnabled) const;
 
 public:
