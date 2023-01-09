@@ -4,6 +4,7 @@
 #include "DamageTriggerComponent.h"
 
 #include "HitPointsComponent.h"
+#include "GameFramework/Character.h"
 
 void UDamageTriggerComponent::BeginPlay()
 {
@@ -26,8 +27,24 @@ void UDamageTriggerComponent::HandleBeginOverlap(UPrimitiveComponent* Overlapped
 
 	UHitPointsComponent* HitPointsComponent = OtherActor->FindComponentByClass<UHitPointsComponent>();
 
-	if (HitPointsComponent)
+	if (!HitPointsComponent)
 	{
-		HitPointsComponent->ApplyDamage(Damage, DamageType);
+		return;
+	}
+
+	HitPointsComponent->ApplyDamage(Damage, DamageType);
+
+	if (bLaunchCharacter)
+	{
+		ACharacter* Character = Cast<ACharacter>(OtherActor);
+
+		if (Character)
+		{
+			const FVector LaunchDirection = (Character->GetActorLocation() - GetOwner()->GetActorLocation()).
+			                                GetUnsafeNormal().
+			                                GetSignVector();
+			const FVector LaunchVelocity {LaunchDirection.X * LaunchPower.X, LaunchDirection.Y * LaunchPower.Y, LaunchPower.Z};
+			Character->LaunchCharacter(LaunchVelocity, true, true);
+		}
 	}
 }

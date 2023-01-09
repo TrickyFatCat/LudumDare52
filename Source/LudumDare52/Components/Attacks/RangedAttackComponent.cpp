@@ -40,7 +40,14 @@ void URangedAttackComponent::HandleProjectileSpawn(USkeletalMeshComponent* Skele
 
 	FTransform SpawnTransform;
 	SpawnTransform.SetLocation(SkeletalMeshComponent->GetSocketLocation(SpawnSocketName));
-	SpawnTransform.SetRotation(FQuat(SkeletalMeshComponent->GetSocketRotation(SpawnSocketName)));
-	// SpawnTransform.SetRotation(FQuat(SkeletalMeshComponent->GetOwner()->GetActorForwardVector().Rotation()));
+
+	if (bUseForwardVector)
+	{
+		SpawnTransform.SetRotation(FQuat(SkeletalMeshComponent->GetOwner()->GetActorForwardVector().Rotation()));
+	}
+	else
+	{
+		SpawnTransform.SetRotation(FQuat(SkeletalMeshComponent->GetSocketRotation(SpawnSocketName)));
+	}
 	GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnTransform);
 }

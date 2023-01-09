@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
-#include "LudumDare52/Components/Attacks/AttackComponent.h"
 #include "CharacterEnemy.generated.h"
 
 class USphereComponent;
@@ -26,6 +25,9 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	USphereComponent* AttackTriggerComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool bDisableFocusOnAttack = true;
 
 public:
 	virtual void Tick(float DeltaTime) override;

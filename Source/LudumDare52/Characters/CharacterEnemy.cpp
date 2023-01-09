@@ -10,6 +10,7 @@
 #include "LudumDare52/Components/FocusComponent.h"
 #include "LudumDare52/Components/HitPointsComponent.h"
 #include "LudumDare52/Components/SoulsCounterComponent.h"
+#include "LudumDare52/Components/Attacks/AttackComponent.h"
 
 
 ACharacterEnemy::ACharacterEnemy()
@@ -63,10 +64,9 @@ void ACharacterEnemy::HandleDeathStart()
 	{
 		SoulsCounterComponent->IncreaseValue(1, true);
 	}
-	
+
 	FocusComponent->StopFocusing();
 	FocusComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	GetMesh()->Stop();
 	AttackTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
@@ -89,7 +89,11 @@ void ACharacterEnemy::StopAutoAttack(UAttackComponent* AttackComponent)
 void ACharacterEnemy::EnterAttackState()
 {
 	bIsAttacking = true;
-	FocusComponent->StopFocusing();
+
+	if (bDisableFocusOnAttack)
+	{
+		FocusComponent->StopFocusing();
+	}
 }
 
 void ACharacterEnemy::ExitAttackState()
