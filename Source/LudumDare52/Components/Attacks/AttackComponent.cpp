@@ -38,6 +38,8 @@ void UAttackComponent::BeginPlay()
 			FinishAttackNotify->OnNotified.AddUObject(this, &UAttackComponent::FinishAttack);
 		}
 	}
+
+	OwningCharacter = Cast<ACharacter>(GetOwner());
 }
 
 void UAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,

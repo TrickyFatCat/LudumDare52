@@ -3,6 +3,7 @@
 
 #include "RangedAttackComponent.h"
 
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "LudumDare52/Actors/ProjectileBase.h"
 #include "LudumDare52/Animation/AnimUtils.h"
@@ -32,7 +33,12 @@ void URangedAttackComponent::BeginPlay()
 
 void URangedAttackComponent::HandleProjectileSpawn(USkeletalMeshComponent* SkeletalMeshComponent)
 {
-	if (!SkeletalMeshComponent || !ProjectileClass)
+	if (!IsValid(OwningCharacter) || OwningCharacter->GetMesh() != SkeletalMeshComponent)
+	{
+		return;
+	}
+
+	if (!ProjectileClass)
 	{
 		return;
 	}
