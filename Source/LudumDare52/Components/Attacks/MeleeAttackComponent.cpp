@@ -3,6 +3,7 @@
 
 #include "MeleeAttackComponent.h"
 
+#include "GameFramework/Character.h"
 #include "LudumDare52/Animation/AnimUtils.h"
 #include "LudumDare52/Animation/MeleeBeginNotify.h"
 #include "LudumDare52/Animation/MeleeEndNotify.h"
@@ -14,7 +15,7 @@ void UMeleeAttackComponent::BeginPlay()
 	for (const auto& AttackMontage : AttackMontages)
 	{
 		UMeleeBeginNotify* MeleeBeginNotify = UAnimUtils::FindFirstNotifyByClass<UMeleeBeginNotify>(AttackMontage);
-		
+
 		if (MeleeBeginNotify)
 		{
 			MeleeBeginNotify->OnNotified.AddUObject(this, &UMeleeAttackComponent::HandleMeleeBegin);
@@ -31,10 +32,18 @@ void UMeleeAttackComponent::BeginPlay()
 
 void UMeleeAttackComponent::HandleMeleeBegin(USkeletalMeshComponent* SkeletalMeshComponent)
 {
+	if (!IsValid(OwningCharacter) || OwningCharacter->GetMesh() != SkeletalMeshComponent)
+	{
+		return;
+	}
 	OnMeleeBegin.Broadcast();
 }
 
 void UMeleeAttackComponent::HandleMeleeEnd(USkeletalMeshComponent* SkeletalMeshComponent)
 {
+	if (!IsValid(OwningCharacter) || OwningCharacter->GetMesh() != SkeletalMeshComponent)
+	{
+		return;
+	}
 	OnMeleeEnd.Broadcast();
 }

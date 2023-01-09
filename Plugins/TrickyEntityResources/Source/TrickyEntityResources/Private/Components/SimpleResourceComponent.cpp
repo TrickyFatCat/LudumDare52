@@ -26,6 +26,8 @@ void USimpleResourceComponent::BeginPlay()
 	}
 	
 	Super::BeginPlay();
+
+	OnResourceValueIncreased.Broadcast(GetValue(), 0);
 }
 
 void USimpleResourceComponent::SetResourceDate(const FSimpleResourceData& Data)
