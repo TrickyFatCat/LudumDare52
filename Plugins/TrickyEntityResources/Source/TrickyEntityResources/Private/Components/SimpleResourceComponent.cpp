@@ -52,6 +52,7 @@ void USimpleResourceComponent::DecreaseValue(const int32 Amount)
 
 void USimpleResourceComponent::IncreaseValue(const int32 Amount, const bool bClampToMax)
 {
+	OnResourceValueIncreased.Broadcast(Amount, bClampToMax);
 	if (!ResourceObject)
 	{
 		return;
@@ -73,6 +74,7 @@ void USimpleResourceComponent::DecreaseMaxValue(int32 Amount, const bool bClampV
 void USimpleResourceComponent::IncreaseMaxValue(int32 Amount, const bool bClampValue)
 {
 	ResourceData.MaxValue += Amount;
+	OnResourceMaxValueIncreased.Broadcast(Amount, bClampValue);
 
 	if (!ResourceObject)
 	{
