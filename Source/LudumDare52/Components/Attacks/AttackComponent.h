@@ -56,4 +56,7 @@ protected:
 	int32 CurrentIndex = 0;
 
 	FTimerHandle AttackTimer;
+
+	UPROPERTY()
+	ACharacter* OwningCharacter = nullptr;
 };
