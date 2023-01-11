@@ -96,7 +96,8 @@ void ACharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void ACharacterPlayer::MoveForward(const float AxisValue)
 {
-	const FRotator Rotation = GetCapsuleComponent()->GetComponentRotation();
+	// const FRotator Rotation = GetCapsuleComponent()->GetComponentRotation();
+	const FRotator Rotation = GetController()->GetControlRotation();
 	const FRotator NewYawRotation(0.f, Rotation.Yaw, 0.f);
 	const FVector Direction = UKismetMathLibrary::GetForwardVector(NewYawRotation);
 	AddMovementInput(Direction, AxisValue);
@@ -104,7 +105,8 @@ void ACharacterPlayer::MoveForward(const float AxisValue)
 
 void ACharacterPlayer::MoveRight(const float AxisValue)
 {
-	const FRotator Rotation = GetCapsuleComponent()->GetComponentRotation();
+	// const FRotator Rotation = GetCapsuleComponent()->GetComponentRotation();
+	const FRotator Rotation = GetController()->GetControlRotation();
 	const FRotator NewYawRotation(0.f, Rotation.Yaw, 0.f);
 	const FVector Direction = UKismetMathLibrary::GetRightVector(NewYawRotation);
 	AddMovementInput(Direction, AxisValue);
@@ -148,7 +150,7 @@ void ACharacterPlayer::HandleDeathStart()
 	{
 		return;
 	}
-	
+
 	StopAnimMontage();
 	Super::HandleDeathStart();
 	ToggleMovement(false);
