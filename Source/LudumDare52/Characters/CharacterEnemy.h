@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
+#include "TimelineAnimationComponent.h"
 #include "CharacterEnemy.generated.h"
 
 class USphereComponent;
 class UFocusComponent;
+class UTimelineAnimationComponent;
 
 UCLASS()
 class LUDUMDARE52_API ACharacterEnemy : public ACharacterBase
@@ -26,14 +28,28 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
 	USphereComponent* AttackTriggerComponent = nullptr;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Components")
+	UTimelineAnimationComponent* DissolveAnimationComponent = nullptr;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	bool bDisableFocusOnAttack = true;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float DissolveDelay = 1.25f;
 
 public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
+	UFUNCTION()
+	void StartDissolveAnimation();
+
+	UFUNCTION()
+	void HandleDissolveFinished(const ETimelineAnimationState NewState);
+	
 	virtual void HandleDeathStart() override;
+
+	virtual void HandleDeathFinish() override;
 
 	UFUNCTION(BlueprintCallable)
 	void StartAutoAttack(UAttackComponent* AttackComponent);
@@ -63,15 +79,15 @@ protected:
 
 	UFUNCTION()
 	void HandleAttentionBeginOverlap(UPrimitiveComponent* OverlappedComponent,
-	                                         AActor* OtherActor,
-	                                         UPrimitiveComponent* OtherComp,
-	                                         int32 OtherBodyIndex,
-	                                         bool bFromSweep,
-	                                         const FHitResult& SweepResult);
+	                                 AActor* OtherActor,
+	                                 UPrimitiveComponent* OtherComp,
+	                                 int32 OtherBodyIndex,
+	                                 bool bFromSweep,
+	                                 const FHitResult& SweepResult);
 
 	UFUNCTION()
 	void HandleAttentionEndOverlap(UPrimitiveComponent* OverlappedComponent,
-	                                       AActor* OtherActor,
-	                                       UPrimitiveComponent* OtherComp,
-	                                       int32 OtherBodyIndex);
+	                               AActor* OtherActor,
+	                               UPrimitiveComponent* OtherComp,
+	                               int32 OtherBodyIndex);
 };
