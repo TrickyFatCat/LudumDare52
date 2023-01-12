@@ -4,6 +4,7 @@
 #include "CharacterEnemy.h"
 
 #include "CharacterPlayer.h"
+#include "../../../Plugins/TrickyAnimationComponents/Source/TrickyAnimationComponents/Public/TimelineAnimationComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -21,7 +22,9 @@ ACharacterEnemy::ACharacterEnemy()
 	AttackTriggerComponent->SetupAttachment(GetRootComponent());
 	FocusComponent = CreateDefaultSubobject<UFocusComponent>("AttentionTrigger");
 	FocusComponent->SetupAttachment(GetRootComponent());
+	DissolveAnimationComponent = CreateDefaultSubobject<UTimelineAnimationComponent>("DissolveAnimation");
 }
+
 
 void ACharacterEnemy::BeginPlay()
 {
@@ -38,11 +41,24 @@ void ACharacterEnemy::BeginPlay()
 	AttackTriggerComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttackEndOverlap);
 	FocusComponent->OnComponentBeginOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionBeginOverlap);
 	FocusComponent->OnComponentEndOverlap.AddDynamic(this, &ACharacterEnemy::HandleAttentionEndOverlap);
+	DissolveAnimationComponent->OnAnimationFinished.AddDynamic(this, &ACharacterEnemy::HandleDissolveFinished);
+	TArray<USceneComponent*> Arr {GetMesh()};
+	DissolveAnimationComponent->SetAnimatedComponents(Arr);
 }
 
 void ACharacterEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ACharacterEnemy::StartDissolveAnimation()
+{
+	DissolveAnimationComponent->Start();
+}
+
+void ACharacterEnemy::HandleDissolveFinished(const ETimelineAnimationState NewState)
+{
+	Destroy();
 }
 
 void ACharacterEnemy::HandleDeathStart()
@@ -68,6 +84,14 @@ void ACharacterEnemy::HandleDeathStart()
 	FocusComponent->StopFocusing();
 	FocusComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	AttackTriggerComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void ACharacterEnemy::HandleDeathFinish()
+{
+	Super::HandleDeathFinish();
+
+	FTimerHandle DeathAnimationDelay;
+	GetWorldTimerManager().SetTimer(DeathAnimationDelay, this, &ACharacterEnemy::StartDissolveAnimation,DissolveDelay, false);
 }
 
 void ACharacterEnemy::StartAutoAttack(UAttackComponent* AttackComponent)
